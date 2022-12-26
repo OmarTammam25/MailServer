@@ -15,16 +15,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
+    private String userName;
     private String email;
     private String password;
+//    private List<Mail> sentMails;
+//    private List<Mail> receivedMails;
+//    private List<Contact> contacts;
 
-    public User() {
-    }
-    public void get(UserDTO userDTO){
-        name = userDTO.name;
-        email = userDTO.email;
-        password = userDTO.password;
-    }
+
 }
 

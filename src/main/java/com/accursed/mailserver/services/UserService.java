@@ -12,13 +12,10 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepo;
+    public void register(UserDTO userDTO){
 
-    public void addNewUser(UserDTO userDTO){
-        User user = new User();
-        user.get(userDTO);
-        userRepo.save(user);
     }
-    public Optional<User> getByName(Long id){
-        return userRepo.findById(id);
+    public long login(UserDTO userDTO){
+
     }
 }
