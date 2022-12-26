@@ -1,6 +1,7 @@
 package com.accursed.mailserver.models;
 
 import com.accursed.mailserver.dtos.UserDTO;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String userName;
+    @Column(name = "Email")
     private String email;
     private String password;
 //    private List<Mail> sentMails;

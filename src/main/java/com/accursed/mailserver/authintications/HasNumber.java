@@ -3,7 +3,7 @@ package com.accursed.mailserver.authintications;
 import com.accursed.mailserver.dtos.UserDTO;
 import org.springframework.beans.factory.annotation.Configurable;
 
-@Configurable
+
 public class HasNumber extends baseHandler{
     public HasNumber(Handler nextHandler) {
         super(nextHandler);
@@ -14,11 +14,11 @@ public class HasNumber extends baseHandler{
             hasNumber = Character.isDigit(i);
         }
         if(hasNumber){
-            super.handle(userDTO);
+            return super.handle(userDTO);
         }
         else{
             return false;
         }
-        return true;
+//        return true;
     }
 }

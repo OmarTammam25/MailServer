@@ -3,23 +3,22 @@ package com.accursed.mailserver.authintications;
 import com.accursed.mailserver.dtos.UserDTO;
 import com.accursed.mailserver.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
-@Configurable
+@Component
 public class EmailExist extends baseHandler{
     @Autowired
-    UserService userService;
-    public EmailExist(Handler nextHandler) {
+    private UserService userService;
+    public EmailExist(@Lazy Handler nextHandler) {
         super(nextHandler);
     }
     public boolean handle(UserDTO userDTO){
-
         if(userService.emailExists(userDTO.email)){
-            super.handle(userDTO);
+            return super.handle(userDTO);
         }
         else{
             return false;
         }
-        return true;
     }
 }

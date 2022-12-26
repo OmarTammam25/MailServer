@@ -2,10 +2,11 @@ package com.accursed.mailserver.authintications;
 
 import com.accursed.mailserver.dtos.UserDTO;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
 
-@Configurable
+
 public class baseHandler implements Handler{
-    private Handler nextHandler;
+    private Handler nextHandler = null;
 
     public baseHandler(Handler nextHandler) {
         this.nextHandler = nextHandler;

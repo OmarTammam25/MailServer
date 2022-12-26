@@ -4,22 +4,23 @@ import com.accursed.mailserver.dtos.UserDTO;
 import com.accursed.mailserver.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
-@Configurable
+@Component
 public class CorrectPassword extends baseHandler{
     @Autowired
     private UserService userService;
 
-    public CorrectPassword(Handler nextHandler) {
+    public CorrectPassword(@Lazy Handler nextHandler) {
         super(nextHandler);
     }
     public boolean handle(UserDTO userDTO){
-        if(userService.getByEmail(userDTO.email).getPassword().equals(userDTO.password)){
-            super.handle(userDTO);
+        if(userService.getByEmail(userDTO.email).get(0).getPassword().equals(userDTO.password)){
+            return super.handle(userDTO);
         }
         else{
             return false;
         }
-        return true;
     }
 }
