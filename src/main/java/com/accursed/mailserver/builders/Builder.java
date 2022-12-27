@@ -1,0 +1,21 @@
+package com.accursed.mailserver.builders;
+
+import com.accursed.mailserver.models.Mail;
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
+
+import java.sql.Timestamp;
+
+public interface Builder {
+    void reset();
+    void setMailFrom(String from);
+    void setMailTo(String to);
+    void setSubject(String subject);
+    void setContent(String content);
+    void setDate();
+    void setState(String state);
+    void setIsStarred(boolean isStarred);
+    void setPriority(int priority);
+    void setSenderID(String Id);
+    void setReceiverID(String Id);
+    Mail getResult();
+}

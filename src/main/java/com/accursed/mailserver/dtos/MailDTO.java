@@ -9,6 +9,7 @@ public class MailDTO {
     public String content;
     public Timestamp timestamp;
     public String state;
+    public boolean isStarred;
     public int priority;
     public String senderID;
     public String receiverID;

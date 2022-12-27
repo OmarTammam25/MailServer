@@ -10,23 +10,24 @@ import lombok.Setter;
 import java.sql.Timestamp;
 
 @Entity
-public class ImmutableMail extends Mail{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    public ImmutableMail(String from,
-                         String to,
+public class ImmutableMail extends Mail {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private long id;
+    public ImmutableMail(String mailFrom,
+                         String mailTo,
                          String subject,
                          String content,
-//                         Timestamp timestamp,
+                         Timestamp timestamp,
                          String state,
+                         boolean isStarred,
                          int priority,
                          String senderID,
                          String receiverID) {
-        super(from, to, subject, content, /*timestamp,*/ state, priority, senderID, receiverID);
+        super(mailFrom, mailTo, subject, content, timestamp, state, isStarred, priority, senderID, receiverID);
     }
 
     public ImmutableMail() {
-
+        super();
     }
 }

@@ -7,27 +7,32 @@ import lombok.Setter;
 import java.sql.Timestamp;
 
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Getter
-@Setter
 public abstract class Mail {
-    private String from;
-    private String to;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String Id;
+    private String mailFrom;
+    private String mailTo;
     private String subject;
     private String content;
-//    private Timestamp timestamp;
+    private Timestamp timestamp;
     private String state;
+    private boolean isStarred;
     private int priority;
     private String senderID;
     private String receiverID;
 
-    public Mail(String from, String to, String subject, String content, /* Timestamp timestamp, */ String state, int priority, String senderID, String receiverID) {
-        this.from = from;
-        this.to = to;
+    public Mail(String mailFrom, String mailTo, String subject, String content, Timestamp timestamp, String state, boolean isStarred, int priority, String senderID, String receiverID) {
+        this.mailFrom = mailFrom;
+        this.mailTo = mailTo;
         this.subject = subject;
         this.content = content;
-//        this.timestamp = timestamp;
+        this.timestamp = timestamp;
         this.state = state;
+        this.isStarred = isStarred;
         this.priority = priority;
         this.senderID = senderID;
         this.receiverID = receiverID;
@@ -36,6 +41,10 @@ public abstract class Mail {
     public Mail() {
 
     }
+
+//    public Mail() {
+//
+//    }
 
 // private String[] attachments;
 }
