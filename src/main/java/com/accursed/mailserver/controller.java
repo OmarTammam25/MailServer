@@ -23,8 +23,7 @@ import java.util.Optional;
 public class controller {
     @Autowired
     UserService userService;
-    @Autowired
-    MailService mailService;
+
 
     @PostMapping("/adduser")
     public void addUser(@RequestBody UserDTO userDTO) {
@@ -32,21 +31,8 @@ public class controller {
     }
 
     @GetMapping("/getuser/{id}")
-    public Optional<User> getuser(@PathVariable Long id) {
-        return userService.getByName(id);
+    public Optional<User> getuser(@PathVariable String id) {
+        return userService.getById(id);
     }
 
-    @PostMapping("/addMail")
-    public ResponseEntity<Object> addMail(@RequestBody MailDTO mailDTO) {
-        ImmutableMail mail = mailService.sendMail(mailDTO);
-        URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
-        return ResponseEntity.created(location).build();
-    }
-
-    @PostMapping("/addDraft")
-    public ResponseEntity<Object> addDraft(@RequestBody MailDTO mailDTO){
-        DraftMail mail =  mailService.sendDraft(mailDTO);
-        URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
-        return ResponseEntity.created(location).build();
-    }
 }

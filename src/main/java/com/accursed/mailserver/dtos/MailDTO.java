@@ -3,6 +3,7 @@ package com.accursed.mailserver.dtos;
 import java.sql.Timestamp;
 
 public class MailDTO {
+    public String id;
     public String from;
     public String to;
     public String subject;

@@ -18,7 +18,8 @@ public class UserService {
         user.get(userDTO);
         userRepo.save(user);
     }
-    public Optional<User> getByName(Long id){
+    public Optional<User> getById(String id){
         return userRepo.findById(id);
     }
+
 }
