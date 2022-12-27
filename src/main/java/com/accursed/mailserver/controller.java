@@ -26,16 +26,6 @@ public class controller {
     @Autowired
     MailService mailService;
 
-    @PostMapping("/adduser")
-    public void addUser(@RequestBody UserDTO userDTO) {
-        userService.addNewUser(userDTO);
-    }
-
-    @GetMapping("/getuser/{id}")
-    public Optional<User> getuser(@PathVariable Long id) {
-        return userService.getByName(id);
-    }
-
     @PostMapping("/addMail")
     public ResponseEntity<Object> addMail(@RequestBody MailDTO mailDTO) {
         ImmutableMail mail = mailService.sendMail(mailDTO);
