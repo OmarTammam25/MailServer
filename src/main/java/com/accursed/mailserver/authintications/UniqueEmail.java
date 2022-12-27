@@ -19,6 +19,8 @@ public class UniqueEmail extends baseHandler{
             return super.handle(userDTO);
         }
         else{
+            userDTO.requestState = false;
+            userDTO.requestMessage = "the Email is already exist";
             return false;
         }
     }

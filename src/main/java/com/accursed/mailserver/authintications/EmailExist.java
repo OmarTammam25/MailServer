@@ -18,6 +18,8 @@ public class EmailExist extends baseHandler{
             return super.handle(userDTO);
         }
         else{
+            userDTO.requestState = false;
+            userDTO.requestMessage = "Email is already exist";
             return false;
         }
     }

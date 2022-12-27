@@ -17,6 +17,8 @@ public class HasNumber extends baseHandler{
             return super.handle(userDTO);
         }
         else{
+            userDTO.requestState = false;
+            userDTO.requestMessage = "The password must contain at least one number";
             return false;
         }
 //        return true;

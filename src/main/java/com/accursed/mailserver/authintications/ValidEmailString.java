@@ -14,8 +14,9 @@ public class ValidEmailString extends baseHandler{
             return super.handle(userDTO);
         }
         else{
+            userDTO.requestState = false;
+            userDTO.requestMessage = "invalid Email";
             return false;
         }
-//        return true;
     }
 }

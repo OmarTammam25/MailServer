@@ -20,6 +20,7 @@ public class baseHandler implements Handler{
     @Override
     public boolean handle(UserDTO userDTO) {
         if(nextHandler == null){
+            userDTO.requestState = true;
             return true;
         }
         else{

@@ -17,8 +17,9 @@ public class HasSpecialChar extends baseHandler{
             return super.handle(userDTO);
         }
         else{
+            userDTO.requestState = false;
+            userDTO.requestMessage = "The password must contain at least one special character";
             return false;
         }
-//        return true;
     }
 }

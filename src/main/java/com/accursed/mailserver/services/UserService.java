@@ -17,8 +17,9 @@ public class UserService {
     public void register(UserDTO userDTO) throws Exception {
             userRepo.save(User.getFromDTO(userDTO));
     }
-    public long login(UserDTO userDTO) throws Exception {
-            return userRepo.findByEmail(userDTO.email).get(0).getId();
+    public UserDTO login(UserDTO userDTO) throws Exception {
+            userDTO.id = userRepo.findByEmail(userDTO.email).get(0).getId();
+            return userDTO;
     }
     public boolean emailExists(String email){
         List<User> users = userRepo.findByEmail(email);

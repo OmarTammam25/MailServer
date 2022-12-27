@@ -20,6 +20,8 @@ public class CorrectPassword extends baseHandler{
             return super.handle(userDTO);
         }
         else{
+            userDTO.requestState = false;
+            userDTO.requestMessage = "the password is incorrect";
             return false;
         }
     }

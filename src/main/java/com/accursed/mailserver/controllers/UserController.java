@@ -15,20 +15,18 @@ public class UserController {
     @Autowired
     ChainFactory chainFactory;
     @PostMapping("/register")
-    public String register(@RequestBody UserDTO userDTO) throws Exception {
+    public UserDTO register(@RequestBody UserDTO userDTO) throws Exception {
          if(chainFactory.getChain("registration").handle(userDTO)) {
              userService.register(userDTO);
-             return "registered";
          }
-        return null;
+        return userDTO;
     }
     @PostMapping("/login")
-    public long login(@RequestBody UserDTO userDTO) throws Exception {
+    public UserDTO login(@RequestBody UserDTO userDTO) throws Exception {
         if(chainFactory.getChain("login").handle(userDTO)) {
             userService.login(userDTO);
-            return userService.login(userDTO);
         }
-        return -1;
+        return userDTO;
 
     }
 }

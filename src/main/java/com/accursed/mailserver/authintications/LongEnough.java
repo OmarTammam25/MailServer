@@ -13,8 +13,9 @@ public class LongEnough extends baseHandler{
             return super.handle(userDTO);
         }
         else{
+            userDTO.requestState = false;
+            userDTO.requestMessage = "the password is too short, it must be more than 8 characters";
             return false;
         }
-//        return true;
     }
 }
