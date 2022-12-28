@@ -12,6 +12,4 @@ public class MailDTO {
     public String state;
     public Boolean isStarred;
     public Integer priority;
-    public String senderID;
-    public String receiverID;
 }

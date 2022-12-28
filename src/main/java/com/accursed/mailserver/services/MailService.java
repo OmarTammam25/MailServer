@@ -10,6 +10,7 @@ import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.models.User;
 import com.accursed.mailserver.repositories.MailRepository;
+import com.accursed.mailserver.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import org.mapstruct.factory.Mappers;
@@ -26,6 +27,8 @@ public class MailService {
     @Autowired
     private MailRepository mailRepo;
     @Autowired
+    private UserRepository userRepo;
+    @Autowired
     private UserService userService;
 
     private MailMapper mailMapper = Mappers.getMapper(MailMapper.class);
@@ -34,18 +37,15 @@ public class MailService {
     public ImmutableMail sendMail(MailDTO dto){
         ImmutableMailBuilder mailBuilder = ImmutableMailBuilder.getInstance();
         mailBuilder.reset();
-        mailBuilder.setMailFrom(dto.from);
+        mailBuilder.setMailFrom(userRepo.findByEmail(dto.from).get(0));
+        mailBuilder.setMailTo(userRepo.findByEmail(dto.to).get(0));
         mailBuilder.setDate();
         mailBuilder.setContent(dto.content);
-        mailBuilder.setMailTo(dto.to);
         mailBuilder.setPriority(dto.priority);
         mailBuilder.setSubject(dto.subject);
         mailBuilder.setIsStarred(dto.isStarred);
         mailBuilder.setState(dto.state);
-        mailBuilder.setSenderID("sendIdTest");
-        mailBuilder.setReceiverID("receiverIdTest");
         ImmutableMail mail = mailBuilder.getResult();
-        mail.getMailTo();
         mailRepo.save(mail);
         return mail;
     }
@@ -53,20 +53,21 @@ public class MailService {
     public DraftMail sendDraft(MailDTO dto){
         DraftBuilder draftBuilder = DraftBuilder.getInstance();
         draftBuilder.reset();
-        draftBuilder.setMailFrom(dto.from);
+//        draftBuilder.setMailFrom(userRepo.findByEmail(dto.from).get(0));
+//        draftBuilder.setMailTo(userRepo.findByEmail(dto.from).get(0));
         draftBuilder.setDate();
         draftBuilder.setContent(dto.content);
-        draftBuilder.setMailTo(dto.to);
         draftBuilder.setPriority(dto.priority);
         draftBuilder.setSubject(dto.subject);
         draftBuilder.setIsStarred(dto.isStarred);
         draftBuilder.setState(dto.state);
-        // TODO request sender and receiver id from database and put them here
-        draftBuilder.setSenderID("sendIdTest");
-        draftBuilder.setReceiverID("receiverIdTest");
         DraftMail mail = draftBuilder.getResult();
         mailRepo.save(mail);
         return mail;
+    }
+    //TODO :This for testing you can remove it and do it better
+    public Mail getMailById(String id) {
+        return mailRepo.findById(id).get();
     }
 
     // TODO test this when you can find by id

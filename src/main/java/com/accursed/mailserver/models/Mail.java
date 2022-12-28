@@ -1,5 +1,6 @@
 package com.accursed.mailserver.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,18 +17,22 @@ public abstract class Mail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     protected String id;
-    protected String mailFrom;
-    protected String mailTo;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    @JsonIgnore
+    protected User mailFrom;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    @JsonIgnore
+    protected User mailTo;
     protected String subject;
     protected String content;
     protected Timestamp timestamp;
     protected String state;
     protected Boolean isStarred;
-    protected String senderID;
-    protected String receiverID;
     protected Integer priority;
 
-    public Mail(String mailFrom, String mailTo, String subject, String content, Timestamp timestamp, String state, boolean isStarred, int priority, String senderID, String receiverID) {
+    public Mail(User mailFrom, User mailTo, String subject, String content, Timestamp timestamp, String state, boolean isStarred, int priority) {
         this.mailFrom = mailFrom;
         this.mailTo = mailTo;
         this.subject = subject;
@@ -36,8 +41,6 @@ public abstract class Mail {
         this.state = state;
         this.isStarred = isStarred;
         this.priority = priority;
-        this.senderID = senderID;
-        this.receiverID = receiverID;
     }
 
     public Mail() {
