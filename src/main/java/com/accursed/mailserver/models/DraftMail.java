@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.sql.Timestamp;
 
 @Entity
-
+@Setter
 public class DraftMail extends Mail {
 
     public DraftMail(String from,

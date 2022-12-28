@@ -25,14 +25,14 @@ public class controller {
     UserService userService;
 
 
-    @PostMapping("/adduser")
-    public void addUser(@RequestBody UserDTO userDTO) {
-        userService.addNewUser(userDTO);
-    }
+//    @PostMapping("/adduser")
+//    public void addUser(@RequestBody UserDTO userDTO) {
+//        userService.addNewUser(userDTO);
+//    }
 
-    @GetMapping("/getuser/{id}")
-    public Optional<User> getuser(@PathVariable String id) {
-        return userService.getById(id);
-    }
+//    @GetMapping("/getuser/{id}")
+//    public Optional<User> getuser(@PathVariable String id) {
+//        return userService.getById(id);
+//    }
 
 }

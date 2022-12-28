@@ -1,4 +1,4 @@
-package com.accursed.mailserver;
+package com.accursed.mailserver.controllers;
 
 import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.models.DraftMail;

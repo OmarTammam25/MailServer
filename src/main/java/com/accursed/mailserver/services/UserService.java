@@ -6,6 +6,7 @@ import com.accursed.mailserver.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -13,13 +14,18 @@ public class UserService {
     @Autowired
     private UserRepository userRepo;
 
-    public void addNewUser(UserDTO userDTO){
-        User user = new User();
-        user.get(userDTO);
-        userRepo.save(user);
+    public void register(UserDTO userDTO) throws Exception {
+            userRepo.save(User.getFromDTO(userDTO));
     }
-    public Optional<User> getById(String id){
-        return userRepo.findById(id);
+    public UserDTO login(UserDTO userDTO) throws Exception {
+            userDTO.id = userRepo.findByEmail(userDTO.email).get(0).getId();
+            return userDTO;
     }
-
+    public boolean emailExists(String email){
+        List<User> users = userRepo.findByEmail(email);
+        return !users.isEmpty();
+    }
+    public List<User> getByEmail(String email){
+        return userRepo.findByEmail(email);
+    }
 }

@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Getter
 public abstract class Mail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,10 +22,10 @@ public abstract class Mail {
     protected String content;
     protected Timestamp timestamp;
     protected String state;
-    protected boolean isStarred;
-    protected int priority;
+    protected Boolean isStarred;
     protected String senderID;
     protected String receiverID;
+    protected Integer priority;
 
     public Mail(String mailFrom, String mailTo, String subject, String content, Timestamp timestamp, String state, boolean isStarred, int priority, String senderID, String receiverID) {
         this.mailFrom = mailFrom;
@@ -37,50 +38,6 @@ public abstract class Mail {
         this.priority = priority;
         this.senderID = senderID;
         this.receiverID = receiverID;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getMailFrom() {
-        return mailFrom;
-    }
-
-    public String getMailTo() {
-        return mailTo;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public boolean isStarred() {
-        return isStarred;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    public String getSenderID() {
-        return senderID;
-    }
-
-    public String getReceiverID() {
-        return receiverID;
     }
 
     public Mail() {
