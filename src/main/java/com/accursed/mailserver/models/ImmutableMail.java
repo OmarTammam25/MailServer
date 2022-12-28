@@ -14,17 +14,15 @@ public class ImmutableMail extends Mail {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private long id;
-    public ImmutableMail(String mailFrom,
-                         String mailTo,
+    public ImmutableMail(User mailFrom,
+                         User mailTo,
                          String subject,
                          String content,
                          Timestamp timestamp,
                          String state,
                          boolean isStarred,
-                         int priority,
-                         String senderID,
-                         String receiverID) {
-        super(mailFrom, mailTo, subject, content, timestamp, state, isStarred, priority, senderID, receiverID);
+                         int priority) {
+        super(mailFrom, mailTo, subject, content, timestamp, state, isStarred, priority);
     }
 
     public ImmutableMail() {
