@@ -27,6 +27,5 @@ public class UserController {
             userService.login(userDTO);
         }
         return userDTO;
-
     }
 }
