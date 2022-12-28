@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserService {
@@ -27,5 +28,8 @@ public class UserService {
     }
     public List<User> getByEmail(String email){
         return userRepo.findByEmail(email);
+    }
+    public User getById(long id){
+        return (User) userRepo.findById(id).get();
     }
 }

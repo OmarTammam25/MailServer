@@ -23,8 +23,10 @@ public class ImmutableMail extends Mail {
                          boolean isStarred,
                          int priority,
                          String senderID,
-                         String receiverID) {
-        super(mailFrom, mailTo, subject, content, timestamp, state, isStarred, priority, senderID, receiverID);
+                         String receiverID,
+                         User mailFromUser,
+                         User mailToUser ) {
+        super(mailFrom, mailTo, subject, content, timestamp, state, isStarred, priority, senderID, receiverID, mailFromUser, mailToUser);
     }
 
     public ImmutableMail() {

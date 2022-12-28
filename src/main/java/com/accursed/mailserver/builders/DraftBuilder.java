@@ -3,6 +3,7 @@ package com.accursed.mailserver.builders;
 import com.accursed.mailserver.models.DraftMail;
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
+import com.accursed.mailserver.models.User;
 
 public class DraftBuilder extends MailBuilder{
     private static DraftBuilder instance;
@@ -20,9 +21,10 @@ public class DraftBuilder extends MailBuilder{
         instance = new DraftBuilder();
     }
 
+
     @Override
     public DraftMail getResult() {
         return new DraftMail(mailFrom, mailTo, subject, content, date,
-                state, isStarred, priority, senderID, receiverID);
+                state, isStarred, priority, senderID, receiverID, mailFromUser, mailToUser);
     }
 }

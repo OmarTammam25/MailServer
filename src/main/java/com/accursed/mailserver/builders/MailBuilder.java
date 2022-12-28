@@ -3,6 +3,7 @@ package com.accursed.mailserver.builders;
 import com.accursed.mailserver.models.DraftMail;
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
+import com.accursed.mailserver.models.User;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -18,6 +19,9 @@ public abstract class MailBuilder implements Builder{
     protected int priority;
     protected String senderID;
     protected String receiverID;
+    protected User mailFromUser;
+    protected User mailToUser;
+
 //    private String[] attachments;
 
 
@@ -26,8 +30,8 @@ public abstract class MailBuilder implements Builder{
     public abstract void reset();
 
     @Override
-    public void setMailFrom(String from) {
-        mailFrom = from;
+    public void setMailFrom(String fromEmail) {
+        mailFrom = fromEmail;
     }
 
     @Override
@@ -74,6 +78,11 @@ public abstract class MailBuilder implements Builder{
     public void setReceiverID(String Id) {
         receiverID = Id;
     }
+    @Override
+    public void setMailFromUser(User user){mailFromUser = user;}
+    @Override
+    public void setMailToUser(User user){mailToUser = user;}
+
 
     @Override
     public abstract Mail getResult();

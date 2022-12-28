@@ -1,5 +1,9 @@
 package com.accursed.mailserver.dtos;
 
+import com.accursed.mailserver.models.User;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ManyToOne;
+
 import java.sql.Timestamp;
 
 public class MailDTO {
@@ -13,4 +17,7 @@ public class MailDTO {
     public int priority;
     public String senderID;
     public String receiverID;
+
+    public User mailFromUser;
+    public User mailToUser;
 }

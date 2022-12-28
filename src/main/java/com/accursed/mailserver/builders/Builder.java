@@ -1,6 +1,7 @@
 package com.accursed.mailserver.builders;
 
 import com.accursed.mailserver.models.Mail;
+import com.accursed.mailserver.models.User;
 import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 
 import java.sql.Timestamp;
@@ -17,5 +18,7 @@ public interface Builder {
     void setPriority(int priority);
     void setSenderID(String Id);
     void setReceiverID(String Id);
+    void setMailFromUser(User user);
+    void setMailToUser(User user);
     Mail getResult();
 }

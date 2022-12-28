@@ -2,6 +2,7 @@ package com.accursed.mailserver.builders;
 
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
+import com.accursed.mailserver.models.User;
 
 public class ImmutableMailBuilder extends MailBuilder{
     private static ImmutableMailBuilder instance;
@@ -22,6 +23,6 @@ public class ImmutableMailBuilder extends MailBuilder{
     @Override
     public ImmutableMail getResult() {
         return new ImmutableMail(mailFrom, mailTo, subject, content, date,
-                state, isStarred, priority, senderID, receiverID);
+                state, isStarred, priority, senderID, receiverID, mailFromUser, mailToUser);
     }
 }
