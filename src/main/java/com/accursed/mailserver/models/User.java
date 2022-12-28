@@ -6,10 +6,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -24,8 +27,10 @@ public class User {
     @Column(name = "Email")
     private String email;
     private String password;
-//    private List<Mail> sentMails;
-//    private List<Mail> receivedMails;
+    @OneToMany(mappedBy = "mailFrom",orphanRemoval = true)
+    private List<Mail> sentMails;
+    @OneToMany(mappedBy = "mailTo",orphanRemoval = true)
+    private List<Mail> receivedMails;
 //    private List<Contact> contacts;
 
     public User(String userName, String email, String password) {
@@ -40,6 +45,11 @@ public class User {
                 userDTO.email,
                 userDTO.password
         );
+    }
+    //TODO for testing
+    public void removeMail (Mail mail){
+        sentMails.remove(mail);
+        receivedMails.remove(mail);
     }
 
 }

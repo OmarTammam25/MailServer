@@ -4,6 +4,7 @@ import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.dtos.UserDTO;
 import com.accursed.mailserver.models.DraftMail;
 import com.accursed.mailserver.models.ImmutableMail;
+import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.models.User;
 import com.accursed.mailserver.services.MailService;
 import com.accursed.mailserver.services.UserService;
@@ -38,5 +39,10 @@ public class controller {
         DraftMail mail =  mailService.sendDraft(mailDTO);
         URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
         return ResponseEntity.created(location).build();
+    }
+    //TODO :This for testing you can remove it and do it better
+    @PostMapping("/getmail")
+    public Mail getMailById(@RequestBody MailDTO mailDTO){
+        return mailService.getMailById(mailDTO.id);
     }
 }

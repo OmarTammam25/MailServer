@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 @Setter
 public class DraftMail extends Mail {
 
-    public DraftMail(String from,
-                     String to,
+    public DraftMail(User from,
+                     User to,
                      String subject,
                      String content,
                      Timestamp timestamp,
@@ -20,7 +20,7 @@ public class DraftMail extends Mail {
                      int priority,
                      String senderID,
                      String receiverID) {
-        super(from, to, subject, content, timestamp, state, isStarred, priority, senderID, receiverID);
+        super(from, to, subject, content, timestamp, state, isStarred, priority);
     }
 
     public DraftMail() {
