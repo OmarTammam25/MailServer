@@ -22,23 +22,42 @@ public class FolderService {
     private UserRepository userRepo;
     @Autowired
     private MailRepository mailRepo;
+
     private MailMapper folderMapper = Mappers.getMapper(MailMapper.class);
-    public void addFolder(FolderDTO folderDTO) {
-        Folder folder = folderMapper.updateFolderFromDto(folderDTO, new Folder());
+
+    public void createFolder(FolderDTO folderDTO) {
+        Folder newFolder = folderMapper.updateFolderFromDto(folderDTO,new Folder());
         User user = userRepo.findById(folderDTO.userId).get();
-        folder.setUser(user);
+        newFolder.setUser(user);
+        folderRepo.save(newFolder);
+    }
+
+    public void deleteFolder(FolderDTO folderDTO) {
+        Folder folder = getById(folderDTO);
+        folderRepo.delete(folder);
+    }
+
+    public void renameFolder(FolderDTO folderDTO) {
+        Folder folder = getById(folderDTO);
+        folder.setFolderName(folderDTO.folderName);
         folderRepo.save(folder);
     }
 
-    public void addMailToFolder(FolderDTO folderDTO) {
-        Folder folder = folderRepo.findByFolderName(folderDTO.folderName);
-        Mail mail = mailRepo.findById(folderDTO.mailId).get();
-        folder.addMail(mail);
-        mail.addFolder(folder);
-        folderRepo.save(folder);
+    public Folder getById(FolderDTO folderDTO) {
+        return folderRepo.findById(folderDTO.folderId).get();
     }
-    public Set<Mail> getFolderMails(FolderDTO folderDTO){
-        Folder folder = folderRepo.findByFolderName(folderDTO.folderName);
-        return folder.getMails();
-    }
+
+
+
+//    public void addMailToFolder(FolderDTO folderDTO) {
+//        Folder folder = folderRepo.findByFolderName(folderDTO.folderName);
+//        Mail mail = mailRepo.findById(folderDTO.mailId).get();
+//        folder.addMail(mail);
+//        mail.addFolder(folder);
+//        folderRepo.save(folder);
+//    }
+//    public Set<Mail> getFolderMails(FolderDTO folderDTO){
+//        Folder folder = folderRepo.findByFolderName(folderDTO.folderName);
+//        return folder.getMails();
+//    }
 }
