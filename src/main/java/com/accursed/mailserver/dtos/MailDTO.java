@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class MailDTO {
     public String id;
+    public String userId;
     public String from;
     public String to;
     public String subject;

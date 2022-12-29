@@ -33,7 +33,9 @@ public class User {
     private Set<Mail> sentMails;
     @OneToMany(mappedBy = "mailTo",orphanRemoval = true)
     private Set<Mail> receivedMails;
-//    private List<Contact> contacts;
+
+    @OneToMany(mappedBy = "user",orphanRemoval = true)
+    private Set<Contact> contacts;
 
     public User(String userName, String email, String password) {
         this.userName = userName;

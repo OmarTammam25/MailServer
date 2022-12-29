@@ -1,5 +1,6 @@
 package com.accursed.mailserver.dtos;
 
+import com.accursed.mailserver.models.Contact;
 import com.accursed.mailserver.models.DraftMail;
 import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.models.User;
@@ -12,4 +13,7 @@ public interface MailMapper {
     DraftMail updateMailFromDto(MailDTO mailDTO, @MappingTarget DraftMail entity);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User updateUserFromDto(UserDTO userDTO, @MappingTarget User entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Contact updateContactFromDto(ContactDTO contactDTO, @MappingTarget Contact entity);
 }

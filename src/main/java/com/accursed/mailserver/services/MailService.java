@@ -2,24 +2,21 @@ package com.accursed.mailserver.services;
 
 import com.accursed.mailserver.builders.DraftBuilder;
 import com.accursed.mailserver.builders.ImmutableMailBuilder;
-import com.accursed.mailserver.builders.MailBuilder;
 import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.dtos.MailMapper;
+import com.accursed.mailserver.dtos.UserDTO;
 import com.accursed.mailserver.models.DraftMail;
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.models.User;
+import com.accursed.mailserver.repositories.DataHandler;
 import com.accursed.mailserver.repositories.MailRepository;
 import com.accursed.mailserver.repositories.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
+import com.accursed.mailserver.services.mailService.searching.SearchService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +27,10 @@ public class MailService {
     private UserRepository userRepo;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SearchService searchService;
+    @Autowired
+    DataHandler dataGetter;
 
     private MailMapper mailMapper = Mappers.getMapper(MailMapper.class);
 
@@ -77,6 +78,11 @@ public class MailService {
             mailMapper.updateMailFromDto(dto, (DraftMail) m.get());
             mailRepo.save(m.get());
         }
+    }
+
+    public List<Mail> searchBySubject(MailDTO mailDTO){
+        List<Mail> mails = dataGetter.getMails(mailDTO.userId);
+        return searchService.searchBySubject(mails, mailDTO.subject);
     }
 
 }
