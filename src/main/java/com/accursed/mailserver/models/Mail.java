@@ -18,11 +18,11 @@ public abstract class Mail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     protected String id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne//(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     @JsonIgnore
     protected User mailFrom;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne//(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     @JsonIgnore
     protected User mailTo;

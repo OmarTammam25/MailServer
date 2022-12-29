@@ -27,7 +27,7 @@ public class Folder {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String folderName;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne//(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     @JsonIgnore
     private User user;

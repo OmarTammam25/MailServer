@@ -32,19 +32,22 @@ public class FolderService {
         folderRepo.save(newFolder);
     }
 
-    public void deleteFolder(FolderDTO folderDTO) {
-        Folder folder = getById(folderDTO);
+    public void deleteFolder(String id) {
+        Folder folder = getById(id);
         folderRepo.delete(folder);
     }
 
     public void renameFolder(FolderDTO folderDTO) {
-        Folder folder = getById(folderDTO);
+        Folder folder = getById(folderDTO.folderId);
         folder.setFolderName(folderDTO.folderName);
         folderRepo.save(folder);
     }
 
-    public Folder getById(FolderDTO folderDTO) {
-        return folderRepo.findById(folderDTO.folderId).get();
+    public Folder getById(String id) {
+        return folderRepo.findById(id).get();
+    }
+    public void update(Folder folder){
+        folderRepo.save(folder);
     }
 
 
@@ -56,8 +59,5 @@ public class FolderService {
 //        mail.addFolder(folder);
 //        folderRepo.save(folder);
 //    }
-//    public Set<Mail> getFolderMails(FolderDTO folderDTO){
-//        Folder folder = folderRepo.findByFolderName(folderDTO.folderName);
-//        return folder.getMails();
-//    }
+
 }

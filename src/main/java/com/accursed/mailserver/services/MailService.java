@@ -6,6 +6,7 @@ import com.accursed.mailserver.builders.MailBuilder;
 import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.models.DraftMail;
+import com.accursed.mailserver.models.Folder;
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.models.User;
@@ -30,6 +31,8 @@ public class MailService {
     private UserRepository userRepo;
     @Autowired
     private UserService userService;
+    @Autowired
+    private FolderService folderService;
 
     private MailMapper mailMapper = Mappers.getMapper(MailMapper.class);
 
@@ -53,8 +56,6 @@ public class MailService {
     public DraftMail sendDraft(MailDTO dto){
         DraftBuilder draftBuilder = DraftBuilder.getInstance();
         draftBuilder.reset();
-//        draftBuilder.setMailFrom(userRepo.findByEmail(dto.from).get(0));
-//        draftBuilder.setMailTo(userRepo.findByEmail(dto.from).get(0));
         draftBuilder.setDate();
         draftBuilder.setContent(dto.content);
         draftBuilder.setPriority(dto.priority);
@@ -65,18 +66,23 @@ public class MailService {
         mailRepo.save(mail);
         return mail;
     }
-    //TODO :This for testing you can remove it and do it better
-    public Mail getMailById(String id) {
-        return mailRepo.findById(id).get();
-    }
-
     // TODO test this when you can find by id
     public void updateDraft(MailDTO dto) {
-        Optional<Mail> m = mailRepo.findById(dto.id);
+        //TODO it is better to use getMail method of mailService class
+        Optional<Mail> m = mailRepo.findById(dto.mailId);
         if(m.isPresent()) {
             mailMapper.updateMailFromDto(dto, (DraftMail) m.get());
             mailRepo.save(m.get());
         }
     }
+    public Mail getMail(String id) {
+        return mailRepo.findById(id).get();
+    }
 
+    public void addToFolder(MailDTO mailDTO) {
+        Mail mail = getMail(mailDTO.mailId);
+        Folder folder = folderService.getById(mailDTO.folderId);
+        folder.addMail(mail);
+        folderService.update(folder);
+    }
 }
