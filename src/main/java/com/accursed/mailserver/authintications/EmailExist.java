@@ -19,7 +19,7 @@ public class EmailExist extends baseHandler{
         }
         else{
             userDTO.requestState = false;
-            userDTO.requestMessage = "Email is already exist";
+            userDTO.requestMessage = "Email is not exist";
             return false;
         }
     }

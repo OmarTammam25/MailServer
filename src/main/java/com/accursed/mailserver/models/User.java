@@ -41,13 +41,13 @@ public class User {
         this.password = password;
     }
 
-    public static User getFromDTO(UserDTO userDTO){
-        return new User(
-                userDTO.userName,
-                userDTO.email,
-                userDTO.password
-        );
-    }
+//    public static User getFromDTO(UserDTO userDTO){
+//        return new User(
+//                userDTO.userName,
+//                userDTO.email,
+//                userDTO.password
+//        );
+//    }
     //TODO for testing
     public void removeMail (Mail mail){
         sentMails.remove(mail);

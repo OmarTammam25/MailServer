@@ -1,11 +1,14 @@
 package com.accursed.mailserver.services;
 
 import com.accursed.mailserver.dtos.MailDTO;
+import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.dtos.UserDTO;
+import com.accursed.mailserver.models.DraftMail;
 import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.models.User;
 import com.accursed.mailserver.repositories.MailRepository;
 import com.accursed.mailserver.repositories.UserRepository;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +24,10 @@ public class UserService {
     private UserRepository userRepo;
     @Autowired
     private MailRepository mailRepo;
-
+    //TODO that is weird i don't know why should it be mailMapper can you change it to user mapper
+    private MailMapper userMapper = Mappers.getMapper(MailMapper.class);
     public void register(UserDTO userDTO) throws Exception {
-            userRepo.save(User.getFromDTO(userDTO));
+            userRepo.save(userMapper.updateUserFromDto(userDTO, (User) new User()));
     }
     public UserDTO login(UserDTO userDTO) throws Exception {
             userDTO.id = userRepo.findByEmail(userDTO.email).get(0).getId();
