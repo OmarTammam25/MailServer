@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
+@Table(name = "folders")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -31,10 +33,11 @@ public class Folder {
     private User user;
     @ManyToMany
     @JoinTable(
-            name = "student_enrolled",
+            name = "mails_folders",
             joinColumns = @JoinColumn(name = "folder_id"),
             inverseJoinColumns = @JoinColumn(name = "mail_id")
     )
+    @JsonIgnore
     private Set<Mail> mails;
     public void addMail(Mail mail){
         mails.add(mail);

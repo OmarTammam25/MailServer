@@ -27,6 +27,7 @@ public abstract class Mail {
     @JsonIgnore
     protected User mailTo;
     @ManyToMany(mappedBy = "mails")
+    @JsonIgnore
     protected Set<Folder> folders;
     protected String subject;
     protected String content;
