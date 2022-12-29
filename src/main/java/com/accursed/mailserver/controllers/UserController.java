@@ -1,7 +1,9 @@
 package com.accursed.mailserver.controllers;
 
 import com.accursed.mailserver.authintications.ChainFactory;
+import com.accursed.mailserver.dtos.FolderDTO;
 import com.accursed.mailserver.dtos.UserDTO;
+import com.accursed.mailserver.models.Folder;
 import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +50,9 @@ public class UserController {
     @PostMapping("/deletemail")
     public String deletemail(@RequestBody UserDTO userDTO){
         return userService.deletemail(userDTO);
+    }
+    @PostMapping("/getuserfolders")
+    public Set<Folder> getFolders(@RequestBody UserDTO userDTO){
+        return userService.getFolders(userDTO);
     }
 }

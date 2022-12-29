@@ -4,6 +4,7 @@ import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.dtos.UserDTO;
 import com.accursed.mailserver.models.DraftMail;
+import com.accursed.mailserver.models.Folder;
 import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.models.User;
 import com.accursed.mailserver.repositories.MailRepository;
@@ -60,5 +61,10 @@ public class UserService {
         Mail mail = mailRepo.findById(userDTO.mailId).get();
         user.removeMail(mail);
         return "done";
+    }
+
+    public Set<Folder> getFolders(UserDTO userDTO) {
+        User user = userRepo.findById(userDTO.id).get();
+        return user.getFolders();
     }
 }

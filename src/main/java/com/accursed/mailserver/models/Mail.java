@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 
 @Entity
@@ -25,6 +26,8 @@ public abstract class Mail {
     @JoinColumn(referencedColumnName = "id")
     @JsonIgnore
     protected User mailTo;
+    @ManyToMany(mappedBy = "mails")
+    protected Set<Folder> folders;
     protected String subject;
     protected String content;
     protected Timestamp timestamp;
@@ -45,6 +48,10 @@ public abstract class Mail {
 
     public Mail() {
 
+    }
+
+    public void addFolder(Folder folder) {
+        folders.add(folder);
     }
 
 //    public Mail() {

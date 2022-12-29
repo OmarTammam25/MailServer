@@ -33,6 +33,8 @@ public class User {
     private Set<Mail> sentMails;
     @OneToMany(mappedBy = "mailTo",orphanRemoval = true)
     private Set<Mail> receivedMails;
+    @OneToMany(mappedBy = "user",orphanRemoval = true)
+    private Set<Folder> folders;
 //    private List<Contact> contacts;
 
     public User(String userName, String email, String password) {
@@ -40,14 +42,6 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
-//    public static User getFromDTO(UserDTO userDTO){
-//        return new User(
-//                userDTO.userName,
-//                userDTO.email,
-//                userDTO.password
-//        );
-//    }
     //TODO for testing
     public void removeMail (Mail mail){
         sentMails.remove(mail);
