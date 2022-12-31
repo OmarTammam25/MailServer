@@ -1,25 +1,21 @@
 package com.accursed.mailserver.builders;
 
-import com.accursed.mailserver.models.DraftMail;
-import com.accursed.mailserver.models.ImmutableMail;
-import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.models.User;
+import com.accursed.mailserver.models.*;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Set;
 
 public abstract class MailBuilder implements Builder{
-    protected User mailFrom;
-    protected User mailTo;
+    protected String mailFrom;
+    protected String mailTo;
     protected String subject;
     protected String content;
     protected Timestamp date;
     protected String state;
     protected boolean isStarred;
     protected int priority;
-    protected String senderID;
-    protected String receiverID;
-//    private String[] attachments;
+    protected Set<Attachment> attachments;
 
 
 
@@ -27,43 +23,57 @@ public abstract class MailBuilder implements Builder{
     public abstract void reset();
 
     @Override
-    public void setMailFrom(User from) {
+    public MailBuilder setMailFrom(String from) {
         mailFrom = from;
+        return this;
     }
 
     @Override
-    public void setMailTo(User to) {
+    public MailBuilder setMailTo(String to) {
         mailTo = to;
+        return this;
     }
 
     @Override
-    public void setSubject(String subject) {
+    public MailBuilder setSubject(String subject) {
         this.subject = subject;
+        return this;
     }
 
     @Override
-    public void setContent(String content) {
+    public MailBuilder setContent(String content) {
         this.content = content;
+        return this;
     }
 
     @Override
-    public void setDate() {
+    public MailBuilder setDate() {
         this.date = new Timestamp(System.currentTimeMillis());
+        return this;
     }
 
     @Override
-    public void setState(String state) {
+    public MailBuilder setState(String state) {
         this.state = state;
+        return this;
     }
 
     @Override
-    public void setIsStarred(boolean isStarred) {
+    public MailBuilder setIsStarred(boolean isStarred) {
         this.isStarred = isStarred;
+        return this;
     }
 
     @Override
-    public void setPriority(int priority) {
+    public MailBuilder setPriority(int priority) {
         this.priority = priority;
+        return this;
+    }
+
+    @Override
+    public MailBuilder setAttachments(Set<Attachment> attachments){
+        this.attachments = attachments;
+        return this;
     }
 
 

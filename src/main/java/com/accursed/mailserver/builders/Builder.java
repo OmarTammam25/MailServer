@@ -1,20 +1,26 @@
 package com.accursed.mailserver.builders;
 
+import com.accursed.mailserver.models.Attachment;
 import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.models.User;
 import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 public interface Builder {
     void reset();
-    void setMailFrom(User from);
-    void setMailTo(User to);
-    void setSubject(String subject);
-    void setContent(String content);
-    void setDate();
-    void setState(String state);
-    void setIsStarred(boolean isStarred);
-    void setPriority(int priority);
+    MailBuilder setMailFrom(String from);
+    MailBuilder setMailTo(String to);
+    MailBuilder setSubject(String subject);
+    MailBuilder setContent(String content);
+    MailBuilder setDate();
+    MailBuilder setState(String state);
+    MailBuilder setIsStarred(boolean isStarred);
+    MailBuilder setPriority(int priority);
+    MailBuilder setAttachments(Set<Attachment> attachments);
+//    MailBuilder setSenderEmail(String senderEmail);
+//    MailBuilder setReceiverEmail(String receiverEmail);
+
     Mail getResult();
 }
