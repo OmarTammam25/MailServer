@@ -10,4 +10,5 @@ public class MailServerApplication {
 		SpringApplication.run(MailServerApplication.class, args);
 	}
 
+
 }

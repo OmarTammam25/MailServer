@@ -8,7 +8,8 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 public class MailDTO {
-    public String id;
+    public String mailId;
+    public String folderId;
     public String from;
     public String to;
     public String subject;
@@ -19,6 +20,5 @@ public class MailDTO {
     public Integer priority;
     public Set<Attachment> attachments;
     public Set<MultipartFile> files;
-    public String senderEmail;
-    public String receiverEmail;
+
 }

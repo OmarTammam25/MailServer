@@ -15,14 +15,11 @@ public abstract class Mail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     protected String id;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
+    protected String mailFrom; // email
+    protected String mailTo; // email
+    @ManyToMany(mappedBy = "mails")
     @JsonIgnore
-    protected User mailFrom;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
-    @JsonIgnore
-    protected User mailTo;
+    protected Set<Folder> folders;
     @OneToMany(mappedBy = "mail")
     protected Set<Attachment> attachments;
     protected String subject;
@@ -31,12 +28,10 @@ public abstract class Mail {
     protected String state;
     protected Boolean isStarred;
     protected Integer priority;
-    protected String senderEmail;
-    protected String receiverEmail;
 
-    public Mail(User mailFrom, User mailTo, String subject, String content,
-                Timestamp timestamp, String state, boolean isStarred, int priority,
-                Set<Attachment> attachments, String senderEmail, String receiverEmail) {
+    public Mail(String mailFrom, String mailTo, String subject, String content,
+                Timestamp timestamp, String state, boolean isStarred,
+                int priority, Set<Attachment> attachments) {
         this.mailFrom = mailFrom;
         this.mailTo = mailTo;
         this.subject = subject;
@@ -46,11 +41,13 @@ public abstract class Mail {
         this.isStarred = isStarred;
         this.priority = priority;
         this.attachments = attachments;
-        this.senderEmail = senderEmail;
-        this.receiverEmail = receiverEmail;
     }
 
     public Mail() {}
+
+//    public void addFolder(Folder folder) {
+//        folders.add(folder);
+//    }
 
 //    public Mail() {
 //

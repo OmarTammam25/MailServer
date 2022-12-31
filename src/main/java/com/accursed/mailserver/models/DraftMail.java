@@ -12,31 +12,27 @@ import java.util.Set;
 @Setter
 public class DraftMail extends Mail {
 
-    public DraftMail(User from,
-                     User to,
+    public DraftMail(String from,
+                     String to,
                      String subject,
                      String content,
                      Timestamp timestamp,
                      String state,
                      boolean isStarred,
                      int priority,
-                     String senderID,
-                     String receiverID,
-                     Set<Attachment> attachment,
-                     String senderEmail,
-                     String receiverEmail) {
-        super(from, to, subject, content, timestamp, state, isStarred, priority, attachment, senderEmail, receiverEmail);
+                     Set<Attachment> attachment) {
+        super(from, to, subject, content, timestamp, state, isStarred, priority, attachment);
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public void setMailFrom(User mailFrom) {
+    public void setMailFrom(String mailFrom) {
         this.mailFrom = mailFrom;
     }
 
-    public void setMailTo(User mailTo) {
+    public void setMailTo(String mailTo) {
         this.mailTo = mailTo;
     }
 
@@ -68,13 +64,6 @@ public class DraftMail extends Mail {
         this.attachments = attachments;
     }
 
-    public void setSenderEmail(String senderEmail){
-        this.senderEmail = senderEmail;
-    }
-
-    public void setReceiverEmail(String receiverEmail){
-        this.receiverEmail = receiverEmail;
-    }
 
     public DraftMail() {
         super();

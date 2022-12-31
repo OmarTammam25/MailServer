@@ -23,6 +23,6 @@ public class DraftBuilder extends MailBuilder{
     @Override
     public DraftMail getResult() {
         return new DraftMail(mailFrom, mailTo, subject, content, date,
-                state, isStarred, priority, senderID, receiverID, attachments, senderEmail, receiverEmail);
+                state, isStarred, priority, attachments);
     }
 }

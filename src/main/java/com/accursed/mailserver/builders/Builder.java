@@ -10,8 +10,8 @@ import java.util.Set;
 
 public interface Builder {
     void reset();
-    MailBuilder setMailFrom(User from);
-    MailBuilder setMailTo(User to);
+    MailBuilder setMailFrom(String from);
+    MailBuilder setMailTo(String to);
     MailBuilder setSubject(String subject);
     MailBuilder setContent(String content);
     MailBuilder setDate();
@@ -19,8 +19,8 @@ public interface Builder {
     MailBuilder setIsStarred(boolean isStarred);
     MailBuilder setPriority(int priority);
     MailBuilder setAttachments(Set<Attachment> attachments);
-    MailBuilder setSenderEmail(String senderEmail);
-    MailBuilder setReceiverEmail(String receiverEmail);
+//    MailBuilder setSenderEmail(String senderEmail);
+//    MailBuilder setReceiverEmail(String receiverEmail);
 
     Mail getResult();
 }
