@@ -37,7 +37,7 @@ public class Folder {
     @JoinColumn(name = "userId",referencedColumnName = "id")
     @JsonIgnore
     private User user;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "mails_folders",
             joinColumns = @JoinColumn(name = "folder_id"),
@@ -46,6 +46,9 @@ public class Folder {
     private Set<Mail> mails;
     public void addMail(Mail mail){
         mails.add(mail);
+    }
+    public void deleteMail(Mail mail){
+        mails.remove(mail);
     }
 
 }

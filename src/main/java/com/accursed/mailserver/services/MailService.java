@@ -78,12 +78,12 @@ public class MailService {
                 .setIsStarred(dto.isStarred)
                 .setState(dto.state)
                 .getResult();
-
         for(MultipartFile file: files){
             Attachment attachment = attachmentService.setAttachmentToMail(file, mail);
             attachmentRepository.save(attachment);
         }
         mailRepo.save(mail);
+        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.from).get(0).getId(),"draft").getId());
         return mail;
     }
 
@@ -103,6 +103,7 @@ public class MailService {
             }
             ((DraftMail) m.get()).setAttachments(attachmentSet);
             mailRepo.save(m.get());
+            addToFolder(m.get().getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.from).get(0).getId(),"draft").getId());
         }else
             throw new IOException();
     }
@@ -130,8 +131,13 @@ public class MailService {
             attachmentRepository.save(i);
         }
         mailRepo.save(mail);
+        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(mail.getMailTo()).get(0).getId(),"inbox").getId());
+        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(mail.getMailFrom()).get(0).getId(),"sent").getId());
+        //TODO change it to delete the mail from the folder
+        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(mail.getMailFrom()).get(0).getId(),"draft").getId());
+//        draft.setFolders(new HashSet<>());
+        deleteFromFolder(draft.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(mail.getMailFrom()).get(0).getId(),"draft").getId());
         mailRepo.deleteById(draft.getId());
-        //TODO change draft folder to sent folder here
         return mail;
     }
 
@@ -152,5 +158,16 @@ public class MailService {
         Folder folder = folderService.getById(folderId);
         folder.addMail(mail);
         folderService.update(folder);
+    }
+    public void deleteFromFolder(String mailId, String folderId){
+        Mail mail = getMail(mailId);
+        Folder folder = folderService.getById(folderId);
+        folder.deleteMail(mail);
+        folderService.update(folder);
+    }
+
+    public void deleteMail(String mailId, String folderId, String userId) {
+        addToFolder(mailId, folderRepo.findByUserIdAndFolderName(userId,"trash").getId());
+        deleteFromFolder(mailId, folderId);
     }
 }

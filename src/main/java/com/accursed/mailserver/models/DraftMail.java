@@ -64,6 +64,9 @@ public class DraftMail extends Mail {
         this.attachments = attachments;
     }
 
+    public  void setFolders(Set<Folder> folders){
+        this.folders = folders;
+    }
 
     public DraftMail() {
         super();

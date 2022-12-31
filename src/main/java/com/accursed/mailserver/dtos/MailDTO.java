@@ -10,6 +10,7 @@ import java.util.Set;
 public class MailDTO {
     public String mailId;
     public String folderId;
+    public String userId;
     public String from;
     public String to;
     public String subject;

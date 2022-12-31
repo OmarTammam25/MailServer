@@ -56,7 +56,10 @@ public class MailController {
         return folderService.getById(id).getMails();
     }
 
-
+    @DeleteMapping("/delete")
+    public void deleteMail(@RequestBody MailDTO mailDTO){
+        mailService.deleteMail(mailDTO.mailId, mailDTO.folderId, mailDTO.userId);
+    }
 
 
 //    @PostMapping("/attach")
