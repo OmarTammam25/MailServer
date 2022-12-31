@@ -32,7 +32,7 @@ public class ContactService {
 
     public Set<Contact> getContacts(ContactDTO contactDTO){
         User user = userRepo.findById(contactDTO.userID).get();
-        return (Set<Contact>) user.getContacts();
+        return user.getContacts();
     }
 
     public void updateContact(ContactDTO contactDTO) {

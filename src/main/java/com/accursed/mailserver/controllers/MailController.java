@@ -46,13 +46,11 @@ public class MailController {
         return mailService.getMail(id);
     }
 
-
     @PutMapping("/add_to_folder")
     public void addToFolder(@RequestBody MailDTO mailDTO){
         mailService.addToFolder(mailDTO.mailId, mailDTO.folderId);
     }
 
-    //folder id
     @GetMapping("/get_mails/{id}")
     public Set<Mail> getMailsOfFolder(@PathVariable String id){
         return folderService.getById(id).getMails();

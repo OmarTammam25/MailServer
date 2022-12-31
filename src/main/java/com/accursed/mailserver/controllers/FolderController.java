@@ -37,5 +37,4 @@ public class FolderController {
     public Folder getFolder(@PathVariable String id){
         return folderService.getById(id);
     }
-
 }

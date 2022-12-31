@@ -22,14 +22,14 @@ public class UserController {
     UserService userService;
     @Autowired
     ChainFactory chainFactory;
-    @PostMapping("/user/register")
+    @PostMapping("/register")
     public UserDTO register(@RequestBody UserDTO userDTO) throws Exception {
          if(chainFactory.getChain("registration").handle(userDTO)) {
              userService.register(userDTO);
          }
         return userDTO;
     }
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public UserDTO login(@RequestBody UserDTO userDTO) throws Exception {
         if(chainFactory.getChain("login").handle(userDTO)) {
             userService.login(userDTO);
