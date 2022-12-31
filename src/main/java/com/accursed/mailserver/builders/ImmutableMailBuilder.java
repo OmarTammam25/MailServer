@@ -22,6 +22,6 @@ public class ImmutableMailBuilder extends MailBuilder{
     @Override
     public ImmutableMail getResult() {
         return new ImmutableMail(mailFrom, mailTo, subject, content, date,
-                state, isStarred, priority);
+                state, isStarred, priority, attachments, senderEmail, receiverEmail);
     }
 }

@@ -1,6 +1,11 @@
 package com.accursed.mailserver.dtos;
 
+import com.accursed.mailserver.models.Attachment;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 import java.sql.Timestamp;
+import java.util.Set;
 
 public class MailDTO {
     public String id;
@@ -12,4 +17,8 @@ public class MailDTO {
     public String state;
     public Boolean isStarred;
     public Integer priority;
+    public Set<Attachment> attachments;
+    public Set<MultipartFile> files;
+    public String senderEmail;
+    public String receiverEmail;
 }

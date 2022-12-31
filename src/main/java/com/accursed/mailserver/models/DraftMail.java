@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -20,8 +21,11 @@ public class DraftMail extends Mail {
                      boolean isStarred,
                      int priority,
                      String senderID,
-                     String receiverID) {
-        super(from, to, subject, content, timestamp, state, isStarred, priority);
+                     String receiverID,
+                     Set<Attachment> attachment,
+                     String senderEmail,
+                     String receiverEmail) {
+        super(from, to, subject, content, timestamp, state, isStarred, priority, attachment, senderEmail, receiverEmail);
     }
 
     public void setId(String id) {
@@ -60,6 +64,17 @@ public class DraftMail extends Mail {
         this.priority = priority;
     }
 
+    public void setAttachments(Set<Attachment> attachments){
+        this.attachments = attachments;
+    }
+
+    public void setSenderEmail(String senderEmail){
+        this.senderEmail = senderEmail;
+    }
+
+    public void setReceiverEmail(String receiverEmail){
+        this.receiverEmail = receiverEmail;
+    }
 
     public DraftMail() {
         super();

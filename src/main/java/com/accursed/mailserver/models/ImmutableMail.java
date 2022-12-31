@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 public class ImmutableMail extends Mail {
@@ -21,8 +22,11 @@ public class ImmutableMail extends Mail {
                          Timestamp timestamp,
                          String state,
                          boolean isStarred,
-                         int priority) {
-        super(mailFrom, mailTo, subject, content, timestamp, state, isStarred, priority);
+                         int priority,
+                         Set<Attachment> attachments,
+                         String senderEmail,
+                         String receiverEmail) {
+        super(mailFrom, mailTo, subject, content, timestamp, state, isStarred, priority, attachments, senderEmail, receiverEmail);
     }
 
     public ImmutableMail() {
