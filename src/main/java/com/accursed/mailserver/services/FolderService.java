@@ -26,11 +26,13 @@ public class FolderService {
 //        newFolder.setUser(user);
 //        folderRepo.save(newFolder);
 //    }
-    public void createFolder(String userId,String folderName) {
+
+    public String createFolder(String userId,String folderName) {
         Folder folder = new Folder(userId,folderName,null,null);
         User user = userRepo.findById(userId).get();
         folder.setUser(user);
         folderRepo.save(folder);
+        return folderRepo.findByUserIdAndFolderName(userId, folderName).getId();
     }
 
     public void deleteFolder(String id) {

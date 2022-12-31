@@ -22,8 +22,9 @@ public class FolderController {
     @Autowired
     private FolderService folderService;
     @PostMapping("/create")
-    public void createFolder(@RequestBody FolderDTO folderDTO){
-        folderService.createFolder(folderDTO.userId,folderDTO.folderName);
+    public FolderDTO createFolder(@RequestBody FolderDTO folderDTO){
+        folderDTO.folderId = folderService.createFolder(folderDTO.userId,folderDTO.folderName);
+        return folderDTO;
     }
     @DeleteMapping("/delete/{id}")
     public void deleteFolder(@PathVariable String id){
