@@ -131,6 +131,7 @@ public class MailService {
         }
         mailRepo.save(mail);
         mailRepo.deleteById(draft.getId());
+        //TODO change draft folder to sent folder here
         return mail;
     }
 
