@@ -46,9 +46,9 @@ public class MailService {
         mailBuilder.setState(dto.state);
         ImmutableMail mail = mailBuilder.getResult();
         mailRepo.save(mail);
-        String userid = userRepo.findByEmail(dto.to).get(0).getId();
-        Folder folder = folderRepo.findByUserIdAndFolderName(userid,"inbox");
-        addToFolder(mail.getId(),folder.getId());
+//        String userid = userRepo.findByEmail(dto.to).get(0).getId();
+//        Folder folder = folderRepo.findByUserIdAndFolderName(userid,"inbox");
+        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.to).get(0).getId(),"inbox").getId());
         addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.from).get(0).getId(),"sent").getId());
         return mail;
     }
