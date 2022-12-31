@@ -18,14 +18,8 @@ public abstract class Mail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     protected String id;
-    @ManyToOne//(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
-    @JsonIgnore
-    protected User mailFrom;
-    @ManyToOne//(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
-    @JsonIgnore
-    protected User mailTo;
+    protected String mailFrom; // email
+    protected String mailTo; // email
     @ManyToMany(mappedBy = "mails")
     @JsonIgnore
     protected Set<Folder> folders;
@@ -36,7 +30,7 @@ public abstract class Mail {
     protected Boolean isStarred;
     protected Integer priority;
 
-    public Mail(User mailFrom, User mailTo, String subject, String content, Timestamp timestamp, String state, boolean isStarred, int priority) {
+    public Mail(String mailFrom, String mailTo, String subject, String content, Timestamp timestamp, String state, boolean isStarred, int priority) {
         this.mailFrom = mailFrom;
         this.mailTo = mailTo;
         this.subject = subject;

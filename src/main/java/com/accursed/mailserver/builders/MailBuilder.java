@@ -9,8 +9,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 public abstract class MailBuilder implements Builder{
-    protected User mailFrom;
-    protected User mailTo;
+    protected String mailFrom;
+    protected String mailTo;
     protected String subject;
     protected String content;
     protected Timestamp date;
@@ -27,12 +27,12 @@ public abstract class MailBuilder implements Builder{
     public abstract void reset();
 
     @Override
-    public void setMailFrom(User from) {
+    public void setMailFrom(String from) {
         mailFrom = from;
     }
 
     @Override
-    public void setMailTo(User to) {
+    public void setMailTo(String to) {
         mailTo = to;
     }
 

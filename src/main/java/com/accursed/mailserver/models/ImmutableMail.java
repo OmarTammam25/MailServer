@@ -14,8 +14,8 @@ public class ImmutableMail extends Mail {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private long id;
-    public ImmutableMail(User mailFrom,
-                         User mailTo,
+    public ImmutableMail(String mailFrom,
+                         String mailTo,
                          String subject,
                          String content,
                          Timestamp timestamp,

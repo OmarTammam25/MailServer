@@ -8,8 +8,8 @@ import java.sql.Timestamp;
 
 public interface Builder {
     void reset();
-    void setMailFrom(User from);
-    void setMailTo(User to);
+    void setMailFrom(String from);
+    void setMailTo(String to);
     void setSubject(String subject);
     void setContent(String content);
     void setDate();

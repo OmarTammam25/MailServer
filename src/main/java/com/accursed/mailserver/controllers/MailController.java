@@ -31,8 +31,6 @@ public class MailController {
     @PostMapping("/send")
     public ResponseEntity<Object> sendMail(@RequestBody MailDTO mailDTO) {
         ImmutableMail mail = mailService.sendMail(mailDTO);
-        mail.getId();
-        mail.getMailTo();
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
@@ -49,7 +47,7 @@ public class MailController {
 
     @PutMapping("/add_to_folder")
     public void addToFolder(@RequestBody MailDTO mailDTO){
-        mailService.addToFolder(mailDTO);
+        mailService.addToFolder(mailDTO.mailId, mailDTO.folderId);
     }
     //mail id
     @GetMapping("/get_mail/{id}")

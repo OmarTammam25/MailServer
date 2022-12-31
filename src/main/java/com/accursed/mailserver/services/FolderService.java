@@ -3,16 +3,13 @@ package com.accursed.mailserver.services;
 import com.accursed.mailserver.dtos.FolderDTO;
 import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.models.Folder;
-import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.models.User;
 import com.accursed.mailserver.repositories.FolderRepository;
-import com.accursed.mailserver.repositories.MailRepository;
 import com.accursed.mailserver.repositories.UserRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
 
 @Service
 public class FolderService {
@@ -20,16 +17,20 @@ public class FolderService {
     private FolderRepository folderRepo;
     @Autowired
     private UserRepository userRepo;
-    @Autowired
-    private MailRepository mailRepo;
 
     private MailMapper folderMapper = Mappers.getMapper(MailMapper.class);
 
-    public void createFolder(FolderDTO folderDTO) {
-        Folder newFolder = folderMapper.updateFolderFromDto(folderDTO,new Folder());
-        User user = userRepo.findById(folderDTO.userId).get();
-        newFolder.setUser(user);
-        folderRepo.save(newFolder);
+//    public void createFolder(FolderDTO folderDTO) {
+//        Folder newFolder = folderMapper.updateFolderFromDto(folderDTO,new Folder());
+//        User user = userRepo.findById(folderDTO.userId).get();
+//        newFolder.setUser(user);
+//        folderRepo.save(newFolder);
+//    }
+    public void createFolder(String userId,String folderName) {
+        Folder folder = new Folder(userId,folderName,null,null);
+        User user = userRepo.findById(userId).get();
+        folder.setUser(user);
+        folderRepo.save(folder);
     }
 
     public void deleteFolder(String id) {
@@ -48,6 +49,13 @@ public class FolderService {
     }
     public void update(Folder folder){
         folderRepo.save(folder);
+    }
+
+    public void initializeUserFolders(String userId){
+        createFolder(userId, "sent");
+        createFolder(userId, "inbox");
+        createFolder(userId, "draft");
+        createFolder(userId, "trash");
     }
 
 

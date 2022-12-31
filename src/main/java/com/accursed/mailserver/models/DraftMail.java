@@ -11,8 +11,8 @@ import java.sql.Timestamp;
 @Setter
 public class DraftMail extends Mail {
 
-    public DraftMail(User from,
-                     User to,
+    public DraftMail(String from,
+                     String to,
                      String subject,
                      String content,
                      Timestamp timestamp,
@@ -28,11 +28,11 @@ public class DraftMail extends Mail {
         this.id = id;
     }
 
-    public void setMailFrom(User mailFrom) {
+    public void setMailFrom(String mailFrom) {
         this.mailFrom = mailFrom;
     }
 
-    public void setMailTo(User mailTo) {
+    public void setMailTo(String mailTo) {
         this.mailTo = mailTo;
     }
 

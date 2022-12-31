@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FolderRepository extends CrudRepository<Folder,String> {
     Folder findByFolderName(String folderName);
+    Folder findByUserIdAndFolderName(String userId, String folderName);
 }

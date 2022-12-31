@@ -29,12 +29,12 @@ public class User {
     @Column(name = "Email")
     private String email;
     private String password;
-    @OneToMany(mappedBy = "mailFrom",orphanRemoval = true)
-    private Set<Mail> sentMails;
-    @OneToMany(mappedBy = "mailTo",orphanRemoval = true)
-    private Set<Mail> receivedMails;
-    @OneToMany(mappedBy = "user",orphanRemoval = true)
-    private Set<Folder> folders;
+    @OneToMany(mappedBy = "user")
+    private List<Folder> folders;
+//    @OneToMany(mappedBy = "mailFrom",orphanRemoval = true)
+//    private Set<Mail> sentMails;
+//    @OneToMany(mappedBy = "mailTo",orphanRemoval = true)
+//    private Set<Mail> receivedMails;
 //    private List<Contact> contacts;
 
     public User(String userName, String email, String password) {
@@ -42,10 +42,10 @@ public class User {
         this.email = email;
         this.password = password;
     }
-    //TODO for testing
-    public void removeMail (Mail mail){
-        sentMails.remove(mail);
-        receivedMails.remove(mail);
-    }
+//    //TODO for testing
+//    public void removeMail (Mail mail){
+//        sentMails.remove(mail);
+//        receivedMails.remove(mail);
+//    }
 }
 

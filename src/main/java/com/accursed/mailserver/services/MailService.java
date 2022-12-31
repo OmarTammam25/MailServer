@@ -2,25 +2,19 @@ package com.accursed.mailserver.services;
 
 import com.accursed.mailserver.builders.DraftBuilder;
 import com.accursed.mailserver.builders.ImmutableMailBuilder;
-import com.accursed.mailserver.builders.MailBuilder;
 import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.models.DraftMail;
 import com.accursed.mailserver.models.Folder;
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.models.User;
+import com.accursed.mailserver.repositories.FolderRepository;
 import com.accursed.mailserver.repositories.MailRepository;
 import com.accursed.mailserver.repositories.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Optional;
 
 @Service
@@ -29,6 +23,8 @@ public class MailService {
     private MailRepository mailRepo;
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private FolderRepository folderRepo;
     @Autowired
     private UserService userService;
     @Autowired
@@ -40,8 +36,8 @@ public class MailService {
     public ImmutableMail sendMail(MailDTO dto){
         ImmutableMailBuilder mailBuilder = ImmutableMailBuilder.getInstance();
         mailBuilder.reset();
-        mailBuilder.setMailFrom(userRepo.findByEmail(dto.from).get(0));
-        mailBuilder.setMailTo(userRepo.findByEmail(dto.to).get(0));
+        mailBuilder.setMailFrom(dto.from);
+        mailBuilder.setMailTo(dto.to);
         mailBuilder.setDate();
         mailBuilder.setContent(dto.content);
         mailBuilder.setPriority(dto.priority);
@@ -50,6 +46,10 @@ public class MailService {
         mailBuilder.setState(dto.state);
         ImmutableMail mail = mailBuilder.getResult();
         mailRepo.save(mail);
+        String userid = userRepo.findByEmail(dto.to).get(0).getId();
+        Folder folder = folderRepo.findByUserIdAndFolderName(userid,"inbox");
+        addToFolder(mail.getId(),folder.getId());
+        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.from).get(0).getId(),"sent").getId());
         return mail;
     }
 
@@ -79,9 +79,9 @@ public class MailService {
         return mailRepo.findById(id).get();
     }
 
-    public void addToFolder(MailDTO mailDTO) {
-        Mail mail = getMail(mailDTO.mailId);
-        Folder folder = folderService.getById(mailDTO.folderId);
+    public void addToFolder(String mailId, String folderId) {
+        Mail mail = getMail(mailId);
+        Folder folder = folderService.getById(folderId);
         folder.addMail(mail);
         folderService.update(folder);
     }
