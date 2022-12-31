@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.ArrayList;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class UserService {
@@ -35,7 +32,14 @@ public class UserService {
         folderService.initializeUserFolders(user.getId());
     }
     public UserDTO login(UserDTO userDTO) throws Exception {
-            userDTO.id = userRepo.findByEmail(userDTO.email).get(0).getId();
+            User user = userRepo.findByEmail(userDTO.email).get(0);
+            List<Folder> folders = user.getFolders();
+            HashMap<String, String> folderNames = new HashMap<>();
+            for(Folder it: folders) {
+                folderNames.put(it.getFolderName(), it.getId());
+            }
+            userDTO.id = user.getId();
+            userDTO.folderNames = folderNames;
             return userDTO;
     }
 
