@@ -13,4 +13,5 @@ public class UserDTO {
     public String requestMessage;
 
     public HashMap<String, String> folderNames;
+    public String inboxId;
 }

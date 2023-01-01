@@ -40,6 +40,7 @@ public class UserService {
             }
             userDTO.id = user.getId();
             userDTO.folderNames = folderNames;
+            userDTO.inboxId = folderNames.get("inbox");
             return userDTO;
     }
 
