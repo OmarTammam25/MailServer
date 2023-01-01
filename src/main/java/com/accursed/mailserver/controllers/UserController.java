@@ -1,19 +1,13 @@
 package com.accursed.mailserver.controllers;
 
-import com.accursed.mailserver.authintications.ChainFactory;
-import com.accursed.mailserver.dtos.FolderDTO;
+import com.accursed.mailserver.services.userService.authintications.ChainFactory;
 import com.accursed.mailserver.dtos.UserDTO;
-import com.accursed.mailserver.models.Folder;
-import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.services.UserService;
+import com.accursed.mailserver.services.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/user")

@@ -6,8 +6,8 @@ import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.models.Contact;
 
 import com.accursed.mailserver.models.User;
-import com.accursed.mailserver.repositories.ContactRepository;
-import com.accursed.mailserver.repositories.UserRepository;
+import com.accursed.mailserver.database.ContactRepository;
+import com.accursed.mailserver.database.UserRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;

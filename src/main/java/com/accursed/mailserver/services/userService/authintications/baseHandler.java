@@ -1,4 +1,4 @@
-package com.accursed.mailserver.authintications;
+package com.accursed.mailserver.services.userService.authintications;
 
 import com.accursed.mailserver.dtos.UserDTO;
 

@@ -1,11 +1,11 @@
-package com.accursed.mailserver.services;
+package com.accursed.mailserver.services.folderService;
 
 import com.accursed.mailserver.dtos.FolderDTO;
 import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.models.Folder;
 import com.accursed.mailserver.models.User;
-import com.accursed.mailserver.repositories.FolderRepository;
-import com.accursed.mailserver.repositories.UserRepository;
+import com.accursed.mailserver.database.FolderRepository;
+import com.accursed.mailserver.database.UserRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,8 @@ public class FolderService {
         User user = userRepo.findById(userId).get();
         folder.setUser(user);
         folderRepo.save(folder);
-        return folderRepo.findByUserIdAndFolderName(userId, folderName).getId();
+        return folder.getId();
+       // return folderRepo.findByUserIdAndFolderName(userId, folderName).getId();
     }
 
     public void deleteFolder(String id) {

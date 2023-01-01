@@ -4,7 +4,7 @@ import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.models.DraftMail;
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.services.MailService;
+import com.accursed.mailserver.services.mailService.MailService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

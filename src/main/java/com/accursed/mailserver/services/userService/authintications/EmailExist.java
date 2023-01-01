@@ -1,8 +1,7 @@
-package com.accursed.mailserver.authintications;
+package com.accursed.mailserver.services.userService.authintications;
 
 import com.accursed.mailserver.dtos.UserDTO;
-import com.accursed.mailserver.repositories.UserRepository;
-import com.accursed.mailserver.services.UserService;
+import com.accursed.mailserver.database.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;

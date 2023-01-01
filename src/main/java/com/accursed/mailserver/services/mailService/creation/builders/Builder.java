@@ -1,11 +1,8 @@
-package com.accursed.mailserver.builders;
+package com.accursed.mailserver.services.mailService.creation.builders;
 
 import com.accursed.mailserver.models.Attachment;
 import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.models.User;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 
-import java.sql.Timestamp;
 import java.util.Set;
 
 public interface Builder {

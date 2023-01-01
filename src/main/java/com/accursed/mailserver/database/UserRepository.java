@@ -1,4 +1,4 @@
-package com.accursed.mailserver.repositories;
+package com.accursed.mailserver.database;
 
 import com.accursed.mailserver.models.User;
 import org.springframework.data.repository.CrudRepository;
@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, String> {
-    User findByuserName(String name);
+    User findByUserName(String name);
     List<User> findByEmail(String email);
 }

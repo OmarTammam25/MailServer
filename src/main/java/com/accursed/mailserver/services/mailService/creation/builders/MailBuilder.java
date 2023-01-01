@@ -1,8 +1,7 @@
-package com.accursed.mailserver.builders;
+package com.accursed.mailserver.services.mailService.creation.builders;
 
 import com.accursed.mailserver.models.*;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Set;
 

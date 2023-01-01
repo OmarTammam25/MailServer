@@ -1,8 +1,8 @@
-package com.accursed.mailserver.services;
+package com.accursed.mailserver.services.attachmentService;
 
 import com.accursed.mailserver.models.Attachment;
 import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.repositories.AttachmentRepository;
+import com.accursed.mailserver.database.AttachmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

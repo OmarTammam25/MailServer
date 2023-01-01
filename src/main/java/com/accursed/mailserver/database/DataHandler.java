@@ -1,12 +1,10 @@
-package com.accursed.mailserver.repositories;
+package com.accursed.mailserver.database;
 
 import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.models.User;
-import com.accursed.mailserver.services.FolderService;
+import com.accursed.mailserver.services.folderService.FolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component

@@ -1,6 +1,5 @@
-package com.accursed.mailserver.repositories;
+package com.accursed.mailserver.database;
 
-import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

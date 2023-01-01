@@ -1,7 +1,6 @@
-package com.accursed.mailserver.builders;
+package com.accursed.mailserver.services.mailService.creation.builders;
 
 import com.accursed.mailserver.models.ImmutableMail;
-import com.accursed.mailserver.models.Mail;
 
 public class ImmutableMailBuilder extends MailBuilder{
     private static ImmutableMailBuilder instance;

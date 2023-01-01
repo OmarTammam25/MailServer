@@ -1,4 +1,4 @@
-package com.accursed.mailserver.authintications;
+package com.accursed.mailserver.services.userService.authintications;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

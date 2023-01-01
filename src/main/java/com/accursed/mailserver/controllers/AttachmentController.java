@@ -2,17 +2,11 @@ package com.accursed.mailserver.controllers;
 
 import com.accursed.mailserver.dtos.AttachmentDTO;
 import com.accursed.mailserver.models.Attachment;
-import com.accursed.mailserver.models.ImmutableMail;
-import com.accursed.mailserver.repositories.MailRepository;
-import com.accursed.mailserver.services.AttachmentService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.accursed.mailserver.database.MailRepository;
+import com.accursed.mailserver.services.attachmentService.AttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.Optional;
 
 @RestController
