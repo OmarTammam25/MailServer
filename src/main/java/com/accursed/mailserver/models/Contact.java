@@ -37,6 +37,6 @@ public class Contact {
     }
 
     public static Contact getInstance(ContactDTO contactDTO){
-        return new Contact(contactDTO.name, contactDTO.accounts);
+        return new Contact(contactDTO.name, contactDTO.mails);
     }
 }
