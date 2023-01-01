@@ -5,14 +5,8 @@ import com.accursed.mailserver.services.mailService.creation.builders.ImmutableM
 import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.models.*;
-import com.accursed.mailserver.database.AttachmentRepository;
-import com.accursed.mailserver.models.DraftMail;
-import com.accursed.mailserver.models.ImmutableMail;
-import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.database.DataHandler;
-import com.accursed.mailserver.database.MailRepository;
-import com.accursed.mailserver.database.UserRepository;
-import com.accursed.mailserver.database.FolderRepository;
+import com.accursed.mailserver.models.*;
+import com.accursed.mailserver.database.*;
 import com.accursed.mailserver.services.attachmentService.AttachmentService;
 import com.accursed.mailserver.services.folderService.FolderService;
 import com.accursed.mailserver.services.userService.UserService;

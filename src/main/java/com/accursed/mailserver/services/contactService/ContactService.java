@@ -26,17 +26,17 @@ public class ContactService {
 
     public void addContact(ContactDTO contactDTO){
         Contact contact = Contact.getInstance(contactDTO);
-        contact.setUser(userRepo.findById(contactDTO.userID).get());
+        contact.setUser(userRepo.findById(contactDTO.userId).get());
         contactRepo.save(contact);
     }
 
     public Set<Contact> getContacts(ContactDTO contactDTO){
-        User user = userRepo.findById(contactDTO.userID).get();
+        User user = userRepo.findById(contactDTO.userId).get();
         return user.getContacts();
     }
 
     public void updateContact(ContactDTO contactDTO) {
-        Optional<Contact> m = contactRepo.findById(contactDTO.ID);
+        Optional<Contact> m = contactRepo.findById(contactDTO.id);
         if(m.isPresent()) {
             mailMapper.updateContactFromDto(contactDTO, (Contact) m.get());
             contactRepo.save(m.get());
@@ -44,7 +44,7 @@ public class ContactService {
     }
 
     public void deleteContact(ContactDTO contactDTO){
-        contactRepo.deleteById(contactDTO.ID);
+        contactRepo.deleteById(contactDTO.id);
     }
 
 }
