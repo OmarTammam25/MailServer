@@ -23,13 +23,15 @@ public class DraftController {
     MailService mailService;
 
     @PostMapping("/post")
-    public ResponseEntity<Object> postDraft(@RequestParam("mail") String jsonRequest, @RequestParam("file") MultipartFile[] files){
+    public ResponseEntity<Object> postDraft(@RequestParam("mail") String jsonRequest/*, @RequestParam("file") MultipartFile[] files*/){
         try {
+            MultipartFile[] files = new MultipartFile[0];
             ObjectMapper objectMapper = new ObjectMapper();
             MailDTO mailDTO = objectMapper.readValue(jsonRequest, MailDTO.class);
             DraftMail mail =  mailService.postDraft(mailDTO, files);
-            URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
-            return ResponseEntity.created(location).build();
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
+            mailDTO.id = mail.getId();
+            return ResponseEntity.created(location).body(mailDTO);
         } catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
@@ -41,8 +43,9 @@ public class DraftController {
     public ResponseEntity<Object> sendDraft(@RequestBody MailDTO mailDTO){
         try {
             ImmutableMail mail =  mailService.sendDraft(mailDTO);
-            URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
-            return ResponseEntity.created(location).build();
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
+            mailDTO.id = mail.getId();
+            return ResponseEntity.created(location).body(mailDTO);
         } catch (Exception e){
             return ResponseEntity.badRequest().build();
         }

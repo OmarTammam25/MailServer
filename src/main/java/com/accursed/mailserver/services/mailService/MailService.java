@@ -95,7 +95,7 @@ public class MailService {
     }
 
     public void updateDraft(MailDTO dto, MultipartFile[] files) throws IOException {
-        Optional<Mail> m = mailRepo.findById(dto.mailId);
+        Optional<Mail> m = mailRepo.findById(dto.id);
         if(m.isPresent()) {
             for(Attachment i : m.get().getAttachments())
                 attachmentRepository.deleteById(i.getId());
@@ -116,7 +116,7 @@ public class MailService {
     }
 
     public ImmutableMail sendDraft(MailDTO dto){
-        DraftMail draft = (DraftMail) mailRepo.findById(dto.mailId).get();
+        DraftMail draft = (DraftMail) mailRepo.findById(dto.id).get();
         ImmutableMailBuilder mailBuilder = ImmutableMailBuilder.getInstance();
         mailBuilder.reset();
         ImmutableMail mail =

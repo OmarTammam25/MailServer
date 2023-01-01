@@ -11,30 +11,31 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@RequestMapping("/contact")
 public class ContactController {
     //TODO CRUD operations for contacts
     @Autowired
     ContactService contactService;
 
-    @PostMapping("/addContact")
+    @PostMapping("/add")
     public ContactDTO addContact (@RequestBody ContactDTO contactDTO){
         contactService.addContact(contactDTO);
         return contactDTO;
     }
 
-    @GetMapping("/getContacts")
+    @GetMapping("/get")
     public Set<Contact> getContacts(@RequestBody ContactDTO contactDTO){
         return contactService.getContacts(contactDTO);
     }
 
 
-    @PutMapping("/updateContact")
+    @PutMapping("/update")
     public ContactDTO updateContact (@RequestBody ContactDTO contactDTO){
         contactService.updateContact(contactDTO);
         return contactDTO;
     }
 
-    @DeleteMapping("/deleteContact")
+    @DeleteMapping("/delete")
     public ContactDTO deleteContact (@RequestBody ContactDTO contactDTO){
         contactService.deleteContact(contactDTO);
         return contactDTO;
