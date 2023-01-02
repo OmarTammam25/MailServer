@@ -12,6 +12,8 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class FolderService {
@@ -78,6 +80,9 @@ public class FolderService {
         Folder folder = dataHandler.getFolderByFolderId(folderId);
         folder.deleteMail(mail);
         dataHandler.updateFolder(folder);
+    }
+    public List<Folder> getFoldersByName(String name){
+        return folderRepo.findByFolderName(name);
     }
 
 

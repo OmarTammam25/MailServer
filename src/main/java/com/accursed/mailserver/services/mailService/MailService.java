@@ -9,10 +9,12 @@ import com.accursed.mailserver.services.folderService.FolderService;
 import com.accursed.mailserver.services.mailService.searching.SearchService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,5 +76,17 @@ public class MailService {
         Folder folder = dataHandler.getFolderByFolderId(folderId);
         folderService.addMailToFolder(mailId, userTrashFolder.getId());
         folderService.deleteMailFromFolder(mailId, folder.getId());
+    }
+    @Scheduled(cron = "0 0 12 * * FRI")
+    private void scheduledTrashDelete(){
+        List<Folder> usersTrashes = folderService.getFoldersByName("trash");
+        for(Folder trash: usersTrashes){
+            for(Mail mail : trash.getMails()){
+                if(new Timestamp(System.currentTimeMillis())-mail.getTimestamp()<){
+                    dataHandler.
+                }
+
+            }
+        }
     }
 }
