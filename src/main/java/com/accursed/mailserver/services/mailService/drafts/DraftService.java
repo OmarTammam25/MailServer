@@ -8,6 +8,7 @@ import com.accursed.mailserver.services.attachmentService.AttachmentService;
 import com.accursed.mailserver.services.folderService.FolderService;
 import com.accursed.mailserver.services.mailService.builders.DraftBuilder;
 import com.accursed.mailserver.services.mailService.builders.ImmutableMailBuilder;
+import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class DraftService {
 
     @Autowired
@@ -49,7 +51,7 @@ public class DraftService {
             dataHandler.saveAttachmentToAttachmentTable(attachment);
         }
 
-        String userId = dataHandler.getUserByEmail(dto.to).getId();
+        String userId = dataHandler.getUserByEmail(dto.from).getId();
         dataHandler.saveMailToMailTable(mail);
         Folder draftFolder = dataHandler.getFolderByUserIdAndFolderName(userId, "draft");
         folderService.addMailToFolder(mail.getId(), draftFolder.getId());
@@ -105,7 +107,6 @@ public class DraftService {
             dataHandler.saveAttachmentToAttachmentTable(i);
         }
 
-
         String receiverId = dataHandler.getUserByEmail(mail.getMailTo()).getId();
         String senderId = dataHandler.getUserByEmail(mail.getMailFrom()).getId();
         dataHandler.saveMailToMailTable(mail);
@@ -118,8 +119,20 @@ public class DraftService {
         dataHandler.deleteMailFromTableByID(draft.getId());
         return mail;
     }
+
     public void deleteDraft(String draftID){
-        dataHandler.deleteMailFromTableByID(draftID);
+        DraftMail draft = (DraftMail) dataHandler.getMailByMailId(draftID);
+        Set<Attachment> attachments = draft.getAttachments();
+        Set<Folder> folders = draft.getFolders();
+        draft.setAttachments(new HashSet<>());
+        draft.setFolders(new HashSet<>());
+        for(Attachment it : attachments){
+            dataHandler.deleteAttachmentFromTableByID(it.getId());
+        }
+        for(Folder it : folders){
+            dataHandler.deleteMailFromFolder(draftID, it.getId());
+        }
+            dataHandler.deleteMailFromTableByID(draftID);
     }
 
     public Optional<Mail> getDraft(String mailId){

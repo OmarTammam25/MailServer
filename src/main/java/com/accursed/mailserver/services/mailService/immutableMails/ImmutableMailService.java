@@ -45,7 +45,7 @@ public class ImmutableMailService {
         }
         //TODO test mail.getId()
         String receiverId = dataHandler.getUserByEmail(dto.to).getId();
-        String senderId = dataHandler.getMailByMailId(dto.from).getId();
+        String senderId = dataHandler.getUserByEmail(dto.from).getId();
         Folder inboxFolder = dataHandler.getFolderByUserIdAndFolderName(receiverId, "inbox");
         Folder sentFolder = dataHandler.getFolderByUserIdAndFolderName(senderId, "sent");
         folderService.addMailToFolder(mail.getId(), inboxFolder.getId());

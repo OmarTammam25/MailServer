@@ -2,15 +2,13 @@ package com.accursed.mailserver.services.mailService.searching.Filter;
 
 import com.accursed.mailserver.models.Mail;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 public class SubjectCriteria implements MailCriteria {
 
-    @Override
-    public List<Mail> meet(List<Mail> data, String subject) {
-        return data.stream().filter(mail ->mail.getSubject().contains(subject)).collect(toList());
+    public Set<Mail> meet(Set<Mail> mails, String subject) {
+        return mails.stream().filter(mail ->mail.getSubject().contains(subject)).collect(toSet());
     }
 }

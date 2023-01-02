@@ -1,5 +1,6 @@
 package com.accursed.mailserver.controllers;
 
+import com.accursed.mailserver.database.DataHandler;
 import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
@@ -23,6 +24,9 @@ public class MailController {
     MailService mailService;
     @Autowired
     FolderService folderService;
+
+    @Autowired
+    private DataHandler dataHandler;
 
     @PostMapping("/send")
     public ResponseEntity<Object> sendMail(@RequestParam("mail") String jsonRequest, @RequestParam("file")MultipartFile[] files) {
@@ -50,7 +54,8 @@ public class MailController {
 
     @GetMapping("/get_mails/{id}")
     public Set<Mail> getMailsOfFolder(@PathVariable String id){
-        return folderService.getById(id).getMails();
+        return dataHandler.getFolderByFolderId(id).getMails();
+//        return folderService.getById(id).getMails();
     }
 
     @DeleteMapping("/delete")
@@ -79,8 +84,8 @@ public class MailController {
 //        mailService.updateDraft(mailDTO);
 //    }
 
-//    @GetMapping("/searchBySubject")
-//    public List<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
-//        return mailService.searchBySubject(mailDTO);
-//    }
+    @GetMapping("/searchBySubject")
+    public Set<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
+        return mailService.searchBySubject(mailDTO);
+    }
 }

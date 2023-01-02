@@ -1,17 +1,23 @@
 package com.accursed.mailserver.services.mailService.searching;
 
+import com.accursed.mailserver.models.Contact;
 import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.services.mailService.searching.Filter.MailCriteria;
+import com.accursed.mailserver.services.mailService.searching.Filter.ContactNameCriteria;
 import com.accursed.mailserver.services.mailService.searching.Filter.SubjectCriteria;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Set;
 
 @Component
 public class SearchService {
-    MailCriteria subjectCriteria = new SubjectCriteria();
+    SubjectCriteria subjectCriteria = new SubjectCriteria();
+    ContactNameCriteria contactCriteria = new ContactNameCriteria();
 
-    public List<Mail> searchBySubject(List<Mail> data, String searched){
-        return subjectCriteria.meet(data, searched);
+    public Set<Mail> searchBySubject(Set<Mail> mails, String searched){
+        return subjectCriteria.meet(mails, searched);
+    }
+
+    public Set<Contact> searchContactByName(Set<Contact> contacts, String name){
+        return contactCriteria.meet(contacts, name);
     }
 }

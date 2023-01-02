@@ -2,11 +2,11 @@ package com.accursed.mailserver.services.mailService.searching.Filter;
 
 import com.accursed.mailserver.models.Mail;
 
-import java.util.List;
+import java.util.Set;
 
-public class ReceiverCriteria implements MailCriteria{
-    @Override
-    public List<Mail> meet(List<Mail> data, String Reci) {
+public class ReceiverCriteria {
+
+    public Set<Object> meet(Set<Object> data, String searched) {
         return null;
     }
 }

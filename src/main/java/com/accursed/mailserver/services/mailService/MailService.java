@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class MailService {
@@ -52,10 +52,11 @@ public class MailService {
         return draftService.sendDraft(dto);
     }
 
-//    public List<Mail> searchBySubject(MailDTO mailDTO){
-//        List<Mail> mails = dataHandler.getMails(mailDTO.userId);
-//        return searchService.searchBySubject(mails, mailDTO.subject);
-//    }
+    public Set<Mail> searchBySubject(MailDTO mailDTO){
+        Folder folder = dataHandler.getFolderByFolderId(mailDTO.folderId);
+        Set<Mail> mails = (Set<Mail>) folder.getMails();
+        return searchService.searchBySubject(mails, mailDTO.subject);
+    }
 
     public Optional<Mail> getDraft(MailDTO dto){
         return draftService.getDraft(dto.mailId);
@@ -74,5 +75,11 @@ public class MailService {
         Folder folder = dataHandler.getFolderByFolderId(folderId);
         folderService.addMailToFolder(mailId, userTrashFolder.getId());
         folderService.deleteMailFromFolder(mailId, folder.getId());
+    }
+
+    public Set<Contact> searchContactByName(ContactDTO contactDTO){
+        Optional<User> user = dataHandler.getUserByUserId(contactDTO.userId);
+        Set<Contact> contacts = user.get().getContacts();
+        return searchService.searchContactByName(contacts, contactDTO.name);
     }
 }

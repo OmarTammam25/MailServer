@@ -2,9 +2,8 @@ package com.accursed.mailserver.services.mailService.searching.Filter;
 
 import com.accursed.mailserver.models.Mail;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 public interface MailCriteria {
-    public List<Mail> meet(List<Mail> data, String searched);
+    public Set<Mail> meet(Set<Mail> mails, String searched);
 }
