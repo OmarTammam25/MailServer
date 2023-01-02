@@ -73,9 +73,9 @@ public class MailService {
         draftService.deleteDraft(dto.mailId);
     }
 
-    public Mail getMail(String mailId) {
-        return dataHandler.getMailByMailId(mailId);
-    }
+//    public Mail getMail(String mailId) {
+//        return dataHandler.getMailByMailId(mailId);
+//    }
 
     public void deleteMailFromFolderAndPutIntoTrash(String mailId, String folderId, String userId) {
         Folder userTrashFolder = dataHandler.getFolderByUserIdAndFolderName(userId, "trash");

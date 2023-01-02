@@ -44,7 +44,7 @@ public class MailController {
     //mail id
     @GetMapping("/get_mail/{id}")
     public Mail getMail(@PathVariable String id){
-        return mailService.getMail(id);
+        return dataHandler.getMailByMailId(id);
     }
 
     @PutMapping("/add_to_folder")
