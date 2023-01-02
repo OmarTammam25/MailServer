@@ -28,15 +28,15 @@ public class Contact {
     @Column(name = "Name")
     private String name;
 
-    @Column(name = "Accounts")
-    private String accounts;
+    @Column(name = "Mails")
+    private String mails;
 
-    public Contact(String name, String accounts){
+    public Contact(String name, String mails){
         this.name = name;
-        this.accounts = accounts;
+        this.mails = mails;
     }
 
     public static Contact getInstance(ContactDTO contactDTO){
-        return new Contact(contactDTO.name, contactDTO.accounts);
+        return new Contact(contactDTO.name, contactDTO.mails);
     }
 }

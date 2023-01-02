@@ -1,22 +1,32 @@
 package com.accursed.mailserver.services.folderService;
 
+import com.accursed.mailserver.database.DataHandler;
 import com.accursed.mailserver.dtos.FolderDTO;
 import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.models.Folder;
+import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.models.User;
 import com.accursed.mailserver.database.FolderRepository;
 import com.accursed.mailserver.database.UserRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
+@Transactional(propagation= Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
 public class FolderService {
     @Autowired
     private FolderRepository folderRepo;
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private DataHandler dataHandler;
 
     private MailMapper folderMapper = Mappers.getMapper(MailMapper.class);
 
@@ -60,6 +70,23 @@ public class FolderService {
         createFolder(userId, "draft");
         createFolder(userId, "trash");
     }
+
+    public void addMailToFolder(String mailId, String folderId){
+        Mail mail = dataHandler.getMailByMailId(mailId);
+        Folder folder = dataHandler.getFolderByFolderId(folderId);
+        folder.addMail(mail);
+        dataHandler.updateFolder(folder);
+    }
+
+    public void deleteMailFromFolder(String mailId, String folderId){
+        Mail mail = dataHandler.getMailByMailId(mailId);
+        Folder folder = dataHandler.getFolderByFolderId(folderId);
+        folder.deleteMail(mail);
+        dataHandler.updateFolder(folder);
+    }
+//    public List<Folder> getFoldersByName(String name){
+//        return folderRepo.findByFolderName(name);
+//    }
 
 
 

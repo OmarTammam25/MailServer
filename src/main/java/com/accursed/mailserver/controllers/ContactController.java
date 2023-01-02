@@ -19,7 +19,7 @@ public class ContactController {
 
     @PostMapping("/add")
     public ContactDTO addContact (@RequestBody ContactDTO contactDTO){
-         contactService.addContact(contactDTO);
+        contactService.addContact(contactDTO);
         return contactDTO;
     }
 
@@ -39,5 +39,10 @@ public class ContactController {
     public ContactDTO deleteContact (@RequestBody ContactDTO contactDTO){
         contactService.deleteContact(contactDTO);
         return contactDTO;
+    }
+
+    @GetMapping("/searchByName")
+    public Set<Contact> searchContactByName(@RequestBody ContactDTO contactDTO){
+        return contactService.searchContactByName(contactDTO);
     }
 }

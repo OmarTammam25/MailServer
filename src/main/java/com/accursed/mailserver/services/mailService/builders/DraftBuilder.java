@@ -1,4 +1,4 @@
-package com.accursed.mailserver.services.mailService.creation.builders;
+package com.accursed.mailserver.services.mailService.builders;
 
 import com.accursed.mailserver.models.DraftMail;
 

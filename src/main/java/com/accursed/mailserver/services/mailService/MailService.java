@@ -1,10 +1,8 @@
 package com.accursed.mailserver.services.mailService;
 
-import com.accursed.mailserver.services.mailService.creation.builders.DraftBuilder;
-import com.accursed.mailserver.services.mailService.creation.builders.ImmutableMailBuilder;
-import com.accursed.mailserver.dtos.MailDTO;
-import com.accursed.mailserver.dtos.MailMapper;
-import com.accursed.mailserver.models.*;
+import com.accursed.mailserver.services.mailService.drafts.DraftService;
+import com.accursed.mailserver.services.mailService.immutableMails.ImmutableMailService;
+import com.accursed.mailserver.dtos.*;
 import com.accursed.mailserver.models.*;
 import com.accursed.mailserver.database.*;
 import com.accursed.mailserver.services.attachmentService.AttachmentService;
@@ -13,31 +11,35 @@ import com.accursed.mailserver.services.userService.UserService;
 import com.accursed.mailserver.services.mailService.searching.SearchService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class MailService {
-    @Autowired
-    private MailRepository mailRepo;
-    @Autowired
-    private UserRepository userRepo;
-    @Autowired
-    private FolderRepository folderRepo;
-    @Autowired
-    private UserService userService;
+
+
     @Autowired
     private SearchService searchService;
     @Autowired
-    DataHandler dataGetter;
+    DataHandler dataHandler;
     @Autowired
     private FolderService folderService;
+    @Autowired
+    private ImmutableMailService immutableMailService;
+    @Autowired
+    private DraftService draftService;
+    @Autowired
+    private MailRepository mailRepo;
     @Autowired
     private AttachmentService attachmentService;
     @Autowired
@@ -47,148 +49,47 @@ public class MailService {
 
 
     public ImmutableMail sendMail(MailDTO dto, MultipartFile[] files) throws IOException {
-        ImmutableMailBuilder mailBuilder = ImmutableMailBuilder.getInstance();
-        mailBuilder.reset();
-        ImmutableMail mail =
-                (ImmutableMail) mailBuilder
-                    .setMailFrom(dto.from)
-                    .setMailTo(dto.to)
-                    .setDate()
-                    .setContent(dto.content)
-                    .setPriority(dto.priority)
-                    .setSubject(dto.subject)
-                    .setIsStarred(dto.isStarred)
-                    .setState(dto.state)
-                    .getResult();
-
-        if(files == null){
-            mailRepo.save(mail);
-        }else{
-            for(MultipartFile file: files){
-                Attachment attachment = attachmentService.setAttachmentToMail(file, mail);
-                attachmentRepository.save(attachment);
-            }
-        }
-        //TODO test mail.getId()
-        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.to).get(0).getId(),"inbox").getId());
-        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.from).get(0).getId(),"sent").getId());
-        return mail;
+        return immutableMailService.createImmutableMail(dto, files);
     }
 
     // TODO add to draft folder
     public DraftMail postDraft(MailDTO dto, MultipartFile[] files) throws IOException {
-        DraftBuilder draftBuilder = DraftBuilder.getInstance();
-        draftBuilder.reset();
-        DraftMail mail =
-                (DraftMail) draftBuilder.setDate()
-                .setMailTo(dto.to)
-                .setMailFrom(dto.from)
-                .setContent(dto.content)
-                .setPriority(dto.priority)
-                .setSubject(dto.subject)
-                .setIsStarred(dto.isStarred)
-                .setState(dto.state)
-                .getResult();
-        if(files == null){
-            mailRepo.save(mail);
-        }else{
-            for(MultipartFile file: files){
-                Attachment attachment = attachmentService.setAttachmentToMail(file, mail);
-                attachmentRepository.save(attachment);
-            }
-        }
-        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.from).get(0).getId(),"draft").getId());
-        return mail;
+        return draftService.postDraft(dto, files);
     }
 
     public void updateDraft(MailDTO dto, MultipartFile[] files) throws IOException {
-        Optional<Mail> m = mailRepo.findById(dto.id);
-        if(m.isPresent()) {
-            for(Attachment i : m.get().getAttachments())
-                attachmentRepository.deleteById(i.getId());
-            ((DraftMail)m.get()).setAttachments(new HashSet<>());
+        draftService.updateDraft(dto, files);
 
-            mailMapper.updateMailFromDto(dto, (DraftMail) m.get());
-            Set<Attachment> attachmentSet = new HashSet<>();
-            if(files != null){
-                for(MultipartFile file: files){
-                    Attachment attachment = attachmentService.setAttachmentToMail(file, m.get());
-                    attachmentSet.add(attachment);
-                    attachmentRepository.save(attachment);
-                }
-            }
-            ((DraftMail) m.get()).setAttachments(attachmentSet);
-            mailRepo.save(m.get());
-            addToFolder(m.get().getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.from).get(0).getId(),"draft").getId());
-        }else
-            throw new IOException();
     }
 
     public ImmutableMail sendDraft(MailDTO dto){
-        DraftMail draft = (DraftMail) mailRepo.findById(dto.id).get();
-        ImmutableMailBuilder mailBuilder = ImmutableMailBuilder.getInstance();
-        mailBuilder.reset();
-        ImmutableMail mail =
-                (ImmutableMail) mailBuilder
-                .setMailTo(draft.getMailTo())
-                .setMailFrom(draft.getMailFrom())
-                .setDate()
-                .setContent(draft.getContent())
-                .setPriority(draft.getPriority())
-                .setSubject(draft.getSubject())
-                .setIsStarred(draft.getIsStarred())
-                .setState(draft.getState())
-                .getResult();
-
-        Set<Attachment> attachmentSet = new HashSet<>();
-        for(Attachment i : draft.getAttachments()){
-            attachmentSet.add(i);
-            i.setMail(mail);
-            attachmentRepository.save(i);
-        }
-        mailRepo.save(mail);
-        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(mail.getMailTo()).get(0).getId(),"inbox").getId());
-        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(mail.getMailFrom()).get(0).getId(),"sent").getId());
-        //TODO change it to delete the mail from the folder
-        addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(mail.getMailFrom()).get(0).getId(),"draft").getId());
-//        draft.setFolders(new HashSet<>());
-        deleteFromFolder(draft.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(mail.getMailFrom()).get(0).getId(),"draft").getId());
-        mailRepo.deleteById(draft.getId());
-        return mail;
+        return draftService.sendDraft(dto);
     }
 
-    public List<Mail> searchBySubject(MailDTO mailDTO){
-        List<Mail> mails = dataGetter.getMails(mailDTO.userId);
+    public Set<Mail> searchBySubject(MailDTO mailDTO){
+        Folder folder = dataHandler.getFolderByFolderId(mailDTO.folderId);
+        Set<Mail> mails = (Set<Mail>) folder.getMails();
         return searchService.searchBySubject(mails, mailDTO.subject);
     }
 
     public Optional<Mail> getDraft(MailDTO dto){
-        return mailRepo.findById(dto.mailId);
+        return draftService.getDraft(dto.mailId);
     }
 
     public void deleteDraft(MailDTO dto){
-        mailRepo.deleteById(dto.mailId);
+        draftService.deleteDraft(dto.mailId);
     }
 
-    public Mail getMail(String id) {
-        return mailRepo.findById(id).get();
+//    public Mail getMail(String mailId) {
+//        return dataHandler.getMailByMailId(mailId);
+//    }
+
+    public void deleteMailFromFolderAndPutIntoTrash(String mailId, String folderId, String userId) {
+        Folder userTrashFolder = dataHandler.getFolderByUserIdAndFolderName(userId, "trash");
+        Folder folder = dataHandler.getFolderByFolderId(folderId);
+        folderService.addMailToFolder(mailId, userTrashFolder.getId());
+        folderService.deleteMailFromFolder(mailId, folder.getId());
     }
 
-    public void addToFolder(String mailId, String folderId) {
-        Mail mail = getMail(mailId);
-        Folder folder = folderService.getById(folderId);
-        folder.addMail(mail);
-        folderService.update(folder);
-    }
-    public void deleteFromFolder(String mailId, String folderId){
-        Mail mail = getMail(mailId);
-        Folder folder = folderService.getById(folderId);
-        folder.deleteMail(mail);
-        folderService.update(folder);
-    }
 
-    public void deleteMail(String mailId, String folderId, String userId) {
-        addToFolder(mailId, folderRepo.findByUserIdAndFolderName(userId,"trash").getId());
-        deleteFromFolder(mailId, folderId);
-    }
 }

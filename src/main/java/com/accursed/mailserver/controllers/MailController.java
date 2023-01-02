@@ -1,5 +1,6 @@
 package com.accursed.mailserver.controllers;
 
+import com.accursed.mailserver.database.DataHandler;
 import com.accursed.mailserver.dtos.MailDTO;
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
@@ -24,6 +25,9 @@ public class MailController {
     @Autowired
     FolderService folderService;
 
+    @Autowired
+    private DataHandler dataHandler;
+
     @PostMapping("/send")
     public ResponseEntity<Object> sendMail(@RequestParam("mail") String jsonRequest, @RequestParam(value = "file", required = false)MultipartFile[] files) {
         try{
@@ -40,23 +44,33 @@ public class MailController {
     //mail id
     @GetMapping("/get_mail/{id}")
     public Mail getMail(@PathVariable String id){
-        return mailService.getMail(id);
+        return dataHandler.getMailByMailId(id);
     }
 
     @PutMapping("/add_to_folder")
     public void addToFolder(@RequestBody MailDTO mailDTO){
-        mailService.addToFolder(mailDTO.mailId, mailDTO.folderId);
+        folderService.addMailToFolder(mailDTO.mailId, mailDTO.folderId);
     }
 
     @GetMapping("/get_mails/{id}")
     public Set<Mail> getMailsOfFolder(@PathVariable String id){
-        return folderService.getById(id).getMails();
+        return dataHandler.getFolderByFolderId(id).getMails();
+//        return folderService.getById(id).getMails();
     }
 
     @DeleteMapping("/delete")
     public void deleteMail(@RequestBody MailDTO mailDTO){
-        mailService.deleteMail(mailDTO.mailId, mailDTO.folderId, mailDTO.userId);
+        mailService.deleteMailFromFolderAndPutIntoTrash(mailDTO.mailId, mailDTO.folderId, mailDTO.userId);
     }
+
+    @GetMapping("/searchBySubject")
+    public Set<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
+        return mailService.searchBySubject(mailDTO);
+    }
+//    @DeleteMapping("/cleartrash")
+//    public void clearTrash(){
+//        mailService.scheduledTrashDelete();
+//    }
 
 
 //    @PostMapping("/attach")
@@ -79,8 +93,5 @@ public class MailController {
 //        mailService.updateDraft(mailDTO);
 //    }
 
-    @GetMapping("/searchBySubject")
-    public List<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
-        return mailService.searchBySubject(mailDTO);
-    }
+
 }
