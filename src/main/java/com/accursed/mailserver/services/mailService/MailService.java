@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,15 +79,16 @@ public class MailService {
         folderService.addMailToFolder(mailId, userTrashFolder.getId());
         folderService.deleteMailFromFolder(mailId, folder.getId());
     }
-    @Scheduled(cron = "0 0 12 * * FRI")
-    private void scheduledTrashDelete(){
+//    @Scheduled(cron = "0 0 12 * * FRI")
+    public void scheduledTrashDelete(){
         List<Folder> usersTrashes = folderService.getFoldersByName("trash");
         for(Folder trash: usersTrashes){
             for(Mail mail : trash.getMails()){
-                if(new Timestamp(System.currentTimeMillis())-mail.getTimestamp()<){
-                    dataHandler.
-                }
-
+                System.out.println(mail.getContent());
+                System.out.println(Duration.between(LocalTime.now(),mail.getTimestamp().toLocalDateTime()).compareTo(Duration.ofHours(2))>0);
+//                if(Duration.between(LocalTime.now(),mail.getTimestamp().toLocalDateTime()).compareTo(Duration.ofHours(2))>0){
+//                    dataHandler.deleteMailFromTableByID(mail.getId());
+//                }
             }
         }
     }
