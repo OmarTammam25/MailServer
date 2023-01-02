@@ -1,14 +1,11 @@
 package com.accursed.mailserver.database;
 
-import com.accursed.mailserver.models.Attachment;
-import com.accursed.mailserver.models.Folder;
-import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.models.User;
+import com.accursed.mailserver.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DataHandler {
@@ -79,8 +76,13 @@ public class DataHandler {
         folder.deleteMail(mail);
         updateFolder(folder);
     }
+
     public Optional<User> getUserByUserId (String userId){
         return userRepo.findById(userId);
+    }
+
+    public void saveContactToTable(Contact contact){
+        contactRepo.save(contact);
     }
 
 

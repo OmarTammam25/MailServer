@@ -62,6 +62,11 @@ public class MailController {
     public void deleteMail(@RequestBody MailDTO mailDTO){
         mailService.deleteMailFromFolderAndPutIntoTrash(mailDTO.mailId, mailDTO.folderId, mailDTO.userId);
     }
+
+    @GetMapping("/searchBySubject")
+    public Set<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
+        return mailService.searchBySubject(mailDTO);
+    }
 //    @DeleteMapping("/cleartrash")
 //    public void clearTrash(){
 //        mailService.scheduledTrashDelete();
@@ -88,8 +93,5 @@ public class MailController {
 //        mailService.updateDraft(mailDTO);
 //    }
 
-    @GetMapping("/searchBySubject")
-    public Set<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
-        return mailService.searchBySubject(mailDTO);
-    }
+
 }

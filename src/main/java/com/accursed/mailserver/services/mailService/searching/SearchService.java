@@ -2,8 +2,8 @@ package com.accursed.mailserver.services.mailService.searching;
 
 import com.accursed.mailserver.models.Contact;
 import com.accursed.mailserver.models.Mail;
-import com.accursed.mailserver.services.mailService.searching.Filter.ContactNameCriteria;
-import com.accursed.mailserver.services.mailService.searching.Filter.SubjectCriteria;
+import com.accursed.mailserver.services.mailService.Filter.ContactNameCriteria;
+import com.accursed.mailserver.services.mailService.Filter.SubjectCriteria;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;

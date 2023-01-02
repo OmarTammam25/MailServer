@@ -84,10 +84,5 @@ public class MailService {
         folderService.deleteMailFromFolder(mailId, folder.getId());
     }
 
-    public Set<Contact> searchContactByName(ContactDTO contactDTO){
-        Optional<User> user = dataHandler.getUserByUserId(contactDTO.userId);
-        Set<Contact> contacts = user.get().getContacts();
-        return searchService.searchContactByName(contacts, contactDTO.name);
-    }
 
 }

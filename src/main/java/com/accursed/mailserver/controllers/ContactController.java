@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@RequestMapping("/contact")
 public class ContactController {
     //TODO CRUD operations for contacts
     @Autowired
@@ -38,5 +39,10 @@ public class ContactController {
     public ContactDTO deleteContact (@RequestBody ContactDTO contactDTO){
         contactService.deleteContact(contactDTO);
         return contactDTO;
+    }
+
+    @GetMapping("/searchByName")
+    public Set<Contact> searchContactByName(@RequestBody ContactDTO contactDTO){
+        return contactService.searchContactByName(contactDTO);
     }
 }

@@ -1,4 +1,4 @@
-package com.accursed.mailserver.services.mailService.searching.Filter;
+package com.accursed.mailserver.services.mailService.Filter;
 
 import com.accursed.mailserver.models.Mail;
 
