@@ -40,8 +40,8 @@ public class ContactService {
         contactDTO.id = contact.getId();
     }
 
-    public Set<Contact> getContacts(ContactDTO contactDTO){
-        User user = userRepo.findById(contactDTO.userId).get();
+    public Set<Contact> getContacts(String userId){
+        User user = dataHandler.getUserByUserId(userId).get();
         return user.getContacts();
     }
 

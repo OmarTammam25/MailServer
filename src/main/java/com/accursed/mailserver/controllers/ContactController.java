@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 @RestController
 @RequestMapping("/contact")
@@ -23,9 +24,9 @@ public class ContactController {
         return contactDTO;
     }
 
-    @GetMapping("/get")
-    public Set<Contact> getContacts(@RequestBody ContactDTO contactDTO){
-        return contactService.getContacts(contactDTO);
+    @GetMapping("/get/{id}")
+    public Set<Contact> getContacts(@PathVariable String id){
+        return contactService.getContacts(id);
     }
 
 
