@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.List;
 
 @Component
 public class DataHandler {
@@ -66,6 +67,10 @@ public class DataHandler {
 
     public void deleteMailFromTableByID(String mailId){
         mailRepo.deleteById(mailId);
+    }
+
+    public List<Folder> getFoldersByName(String name){
+        return folderRepo.findByFolderName(name);
     }
 
     public void deleteMailFromFolder(String mailId, String folderId){

@@ -9,10 +9,15 @@ import com.accursed.mailserver.services.folderService.FolderService;
 import com.accursed.mailserver.services.mailService.searching.SearchService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,6 +35,8 @@ public class MailService {
     private ImmutableMailService immutableMailService;
     @Autowired
     private DraftService draftService;
+    @Autowired
+    private MailRepository mailRepo;
 
     private MailMapper mailMapper = Mappers.getMapper(MailMapper.class);
 
@@ -82,4 +89,5 @@ public class MailService {
         Set<Contact> contacts = user.get().getContacts();
         return searchService.searchContactByName(contacts, contactDTO.name);
     }
+
 }

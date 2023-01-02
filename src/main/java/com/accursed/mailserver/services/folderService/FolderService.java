@@ -11,9 +11,14 @@ import com.accursed.mailserver.database.UserRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
+@Transactional(propagation= Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
 public class FolderService {
     @Autowired
     private FolderRepository folderRepo;
@@ -79,6 +84,9 @@ public class FolderService {
         folder.deleteMail(mail);
         dataHandler.updateFolder(folder);
     }
+//    public List<Folder> getFoldersByName(String name){
+//        return folderRepo.findByFolderName(name);
+//    }
 
 
 

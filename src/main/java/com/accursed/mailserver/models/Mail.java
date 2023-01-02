@@ -42,6 +42,9 @@ public abstract class Mail {
         this.priority = priority;
         this.attachments = attachments;
     }
+    public void deleteFromFolder(Folder folder){
+        folders.remove(folder);
+    }
 
     public Mail() {}
 
