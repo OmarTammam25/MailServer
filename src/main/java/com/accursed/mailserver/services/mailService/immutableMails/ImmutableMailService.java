@@ -44,12 +44,12 @@ public class ImmutableMailService {
 
         }
         //TODO test mail.getId()
-        String userId = dataHandler.getUserByEmail(dto.to).getId();
-        Folder inboxFolder = dataHandler.getFolderByUserIdAndFolderName(userId, "inbox");
-        Folder sentFolder = dataHandler.getFolderByUserIdAndFolderName(userId, "sent");
+        String receiverId = dataHandler.getUserByEmail(dto.to).getId();
+        String senderId = dataHandler.getMailByMailId(dto.from).getId();
+        Folder inboxFolder = dataHandler.getFolderByUserIdAndFolderName(receiverId, "inbox");
+        Folder sentFolder = dataHandler.getFolderByUserIdAndFolderName(senderId, "sent");
         folderService.addMailToFolder(mail.getId(), inboxFolder.getId());
         folderService.addMailToFolder(mail.getId(), sentFolder.getId());
-
         return mail;
     }
 }
