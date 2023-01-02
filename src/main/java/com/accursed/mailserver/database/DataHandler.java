@@ -68,4 +68,7 @@ public class DataHandler {
     public void deleteMailFromTableByID(String mailId){
         mailRepo.deleteById(mailId);
     }
+    public List<Folder> getFoldersByName(String name){
+        return folderRepo.findByFolderName(name);
+    }
 }

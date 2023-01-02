@@ -57,10 +57,10 @@ public class MailController {
     public void deleteMail(@RequestBody MailDTO mailDTO){
         mailService.deleteMailFromFolderAndPutIntoTrash(mailDTO.mailId, mailDTO.folderId, mailDTO.userId);
     }
-    @DeleteMapping("/cleartrash")
-    public void clearTrash(){
-        mailService.scheduledTrashDelete();
-    }
+//    @DeleteMapping("/cleartrash")
+//    public void clearTrash(){
+//        mailService.scheduledTrashDelete();
+//    }
 
 
 //    @PostMapping("/attach")

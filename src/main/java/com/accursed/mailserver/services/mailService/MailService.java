@@ -34,6 +34,8 @@ public class MailService {
     private ImmutableMailService immutableMailService;
     @Autowired
     private DraftService draftService;
+    @Autowired
+    private MailRepository mailRepo;
 
     private MailMapper mailMapper = Mappers.getMapper(MailMapper.class);
 
@@ -79,17 +81,5 @@ public class MailService {
         folderService.addMailToFolder(mailId, userTrashFolder.getId());
         folderService.deleteMailFromFolder(mailId, folder.getId());
     }
-//    @Scheduled(cron = "0 0 12 * * FRI")
-    public void scheduledTrashDelete(){
-        List<Folder> usersTrashes = folderService.getFoldersByName("trash");
-        for(Folder trash: usersTrashes){
-            for(Mail mail : trash.getMails()){
-                System.out.println(mail.getContent());
-                System.out.println(Duration.between(LocalTime.now(),mail.getTimestamp().toLocalDateTime()).compareTo(Duration.ofHours(2))>0);
-//                if(Duration.between(LocalTime.now(),mail.getTimestamp().toLocalDateTime()).compareTo(Duration.ofHours(2))>0){
-//                    dataHandler.deleteMailFromTableByID(mail.getId());
-//                }
-            }
-        }
-    }
+
 }
