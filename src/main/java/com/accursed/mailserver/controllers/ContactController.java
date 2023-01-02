@@ -13,13 +13,13 @@ import java.util.Set;
 @RestController
 @RequestMapping("/contact")
 public class ContactController {
-    //TODO CRUD operations for contacts
+    //TODO CRUD operations for contact
     @Autowired
     ContactService contactService;
 
     @PostMapping("/add")
     public ContactDTO addContact (@RequestBody ContactDTO contactDTO){
-        contactService.addContact(contactDTO);
+         contactService.addContact(contactDTO);
         return contactDTO;
     }
 

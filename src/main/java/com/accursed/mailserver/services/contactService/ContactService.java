@@ -28,6 +28,7 @@ public class ContactService {
         Contact contact = Contact.getInstance(contactDTO);
         contact.setUser(userRepo.findById(contactDTO.userId).get());
         contactRepo.save(contact);
+        contactDTO.id = contact.getId();
     }
 
     public Set<Contact> getContacts(ContactDTO contactDTO){

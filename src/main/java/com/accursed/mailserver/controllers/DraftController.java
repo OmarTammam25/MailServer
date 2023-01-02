@@ -23,9 +23,8 @@ public class DraftController {
     MailService mailService;
 
     @PostMapping("/post")
-    public ResponseEntity<Object> postDraft(@RequestParam("mail") String jsonRequest/*, @RequestParam("file") MultipartFile[] files*/){
+    public ResponseEntity<Object> postDraft(@RequestParam("mail") String jsonRequest, @RequestParam(value = "file", required = false) MultipartFile[] files){
         try {
-            MultipartFile[] files = new MultipartFile[0];
             ObjectMapper objectMapper = new ObjectMapper();
             MailDTO mailDTO = objectMapper.readValue(jsonRequest, MailDTO.class);
             DraftMail mail =  mailService.postDraft(mailDTO, files);

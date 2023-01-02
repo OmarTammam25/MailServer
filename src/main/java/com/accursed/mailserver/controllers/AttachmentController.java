@@ -1,13 +1,24 @@
 package com.accursed.mailserver.controllers;
 
 import com.accursed.mailserver.dtos.AttachmentDTO;
+import com.accursed.mailserver.dtos.ResponseFile;
 import com.accursed.mailserver.models.Attachment;
 import com.accursed.mailserver.database.MailRepository;
 import com.accursed.mailserver.services.attachmentService.AttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class AttachmentController {
@@ -17,9 +28,52 @@ public class AttachmentController {
     @Autowired
     private MailRepository mailRepository;
 
-    @GetMapping("/attachment/get")
-    public Optional<Attachment> getAttachment(@RequestBody AttachmentDTO attachmentDTO){
-        return attachmentService.getAttachment(attachmentDTO.id);
+//    @GetMapping("/attachment/get/{id}")
+//    public Optional<Attachment> getAttachment(@PathVariable String id){
+//        return attachmentService.getAttachment(id);
+//    }
+
+    @GetMapping("/files")
+    public ResponseEntity<List<ResponseFile>> getListFiles() {
+        List<Attachment> files = attachmentService.getAllFiles();
+        List<ResponseFile> responseFiles = new ArrayList<>();
+        for(Attachment i : files){
+            String fileDownloadUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/files/")
+                    .path(i.getId())
+                    .toUriString();
+            responseFiles.add(new ResponseFile(
+                    i.getName(),
+                    fileDownloadUri,
+                    i.getType(),
+                    i.getData().length));
+        }
+
+//                .map(dbFile -> {
+//            String fileDownloadUri = ServletUriComponentsBuilder
+//                    .fromCurrentContextPath()
+//                    .path("/files/")
+//                    .path(dbFile.getId())
+//                    .toUriString();
+//
+//            return new ResponseFile(
+//                    dbFile.getName(),
+//                    fileDownloadUri,
+//                    dbFile.getType(),
+//                    dbFile.getData().length);
+//        }).collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseFiles);
+    }
+    @GetMapping("/attachment/get/{id}")
+    public ResponseEntity<Resource> getFile(@PathVariable String id) {
+        Optional<Attachment> attachment = attachmentService.getAttachment(id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(attachment.get().getType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + attachment.get().getName() + "\"")
+                .body(new ByteArrayResource(attachment.get().getData()));
     }
 
 //    @PostMapping("/attachment/post")

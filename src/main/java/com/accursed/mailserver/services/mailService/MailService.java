@@ -61,9 +61,13 @@ public class MailService {
                     .setState(dto.state)
                     .getResult();
 
-        for(MultipartFile file: files){
-            Attachment attachment = attachmentService.setAttachmentToMail(file, mail);
-            attachmentRepository.save(attachment);
+        if(files == null){
+            mailRepo.save(mail);
+        }else{
+            for(MultipartFile file: files){
+                Attachment attachment = attachmentService.setAttachmentToMail(file, mail);
+                attachmentRepository.save(attachment);
+            }
         }
         //TODO test mail.getId()
         addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.to).get(0).getId(),"inbox").getId());
@@ -85,11 +89,14 @@ public class MailService {
                 .setIsStarred(dto.isStarred)
                 .setState(dto.state)
                 .getResult();
-        for(MultipartFile file: files){
-            Attachment attachment = attachmentService.setAttachmentToMail(file, mail);
-            attachmentRepository.save(attachment);
+        if(files == null){
+            mailRepo.save(mail);
+        }else{
+            for(MultipartFile file: files){
+                Attachment attachment = attachmentService.setAttachmentToMail(file, mail);
+                attachmentRepository.save(attachment);
+            }
         }
-        mailRepo.save(mail);
         addToFolder(mail.getId(),folderRepo.findByUserIdAndFolderName(userRepo.findByEmail(dto.from).get(0).getId(),"draft").getId());
         return mail;
     }
@@ -103,10 +110,12 @@ public class MailService {
 
             mailMapper.updateMailFromDto(dto, (DraftMail) m.get());
             Set<Attachment> attachmentSet = new HashSet<>();
-            for(MultipartFile file: files){
-                Attachment attachment = attachmentService.setAttachmentToMail(file, m.get());
-                attachmentSet.add(attachment);
-                attachmentRepository.save(attachment);
+            if(files != null){
+                for(MultipartFile file: files){
+                    Attachment attachment = attachmentService.setAttachmentToMail(file, m.get());
+                    attachmentSet.add(attachment);
+                    attachmentRepository.save(attachment);
+                }
             }
             ((DraftMail) m.get()).setAttachments(attachmentSet);
             mailRepo.save(m.get());

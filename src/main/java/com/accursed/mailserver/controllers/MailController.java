@@ -25,7 +25,7 @@ public class MailController {
     FolderService folderService;
 
     @PostMapping("/send")
-    public ResponseEntity<Object> sendMail(@RequestParam("mail") String jsonRequest, @RequestParam("file")MultipartFile[] files) {
+    public ResponseEntity<Object> sendMail(@RequestParam("mail") String jsonRequest, @RequestParam(value = "file", required = false)MultipartFile[] files) {
         try{
             ObjectMapper objectMapper = new ObjectMapper();
             MailDTO mailDTO = objectMapper.readValue(jsonRequest, MailDTO.class);
