@@ -34,8 +34,10 @@ public class MailController {
             ObjectMapper objectMapper = new ObjectMapper();
             MailDTO mailDTO = objectMapper.readValue(jsonRequest, MailDTO.class);
             ImmutableMail mail = mailService.sendMail(mailDTO, files);
+            mailDTO.mailId = mail.getId();
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
-            return ResponseEntity.created(location).build();
+
+            return ResponseEntity.created(location).body(mailDTO);
         } catch(Exception e) {
           return ResponseEntity.badRequest().build();
         }

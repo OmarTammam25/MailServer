@@ -39,7 +39,7 @@ public class AttachmentController {
 //        return attachmentService.getAttachment(id);
 //    }
 
-    @GetMapping("/files")
+    @GetMapping("/files/{mailId}")
     public ResponseEntity<Set<ResponseFile>> getListFiles(@PathVariable String mailId) {
         Mail mail = dataHandler.getMailByMailId(mailId);
         Set<Attachment> files = mail.getAttachments();
@@ -47,7 +47,7 @@ public class AttachmentController {
         for(Attachment i : files){
             String fileDownloadUri = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/files/")
+                    .path("/attachment/get/")
                     .path(i.getId())
                     .toUriString();
             responseFiles.add(new ResponseFile(
