@@ -2,11 +2,13 @@ package com.accursed.mailserver.controllers;
 
 import com.accursed.mailserver.database.DataHandler;
 import com.accursed.mailserver.dtos.MailDTO;
+import com.accursed.mailserver.dtos.MailMapper;
 import com.accursed.mailserver.models.ImmutableMail;
 import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.services.folderService.FolderService;
 import com.accursed.mailserver.services.mailService.MailService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +30,7 @@ public class MailController {
 
     @Autowired
     private DataHandler dataHandler;
+    private MailMapper mailMapper = Mappers.getMapper(MailMapper.class);
 
     @PostMapping("/send")
     public ResponseEntity<Object> sendMail(@RequestParam("mail") String jsonRequest, @RequestParam(value = "file", required = false)MultipartFile[] files) {
@@ -55,9 +59,16 @@ public class MailController {
     }
 
     @GetMapping("/get_mails/{id}")
-    public Set<Mail> getMailsOfFolder(@PathVariable String id){
-        return dataHandler.getFolderByFolderId(id).getMails();
-//        return folderService.getById(id).getMails();
+    public Set<MailDTO> getMailsOfFolder(@PathVariable String id){
+        Set<MailDTO> mailsDtos = new HashSet<>();
+        Set<Mail> mails = dataHandler.getFolderByFolderId(id).getMails();
+        for(Mail mail:mails){
+            MailDTO mailDTO = new MailDTO();
+            mailMapper.getMailDtoFromMail(mail, mailDTO);
+            mailDTO.mailId = mail.getId();
+            mailsDtos.add(mailDTO);
+        }
+        return mailsDtos;
     }
 
     @DeleteMapping("/delete")
