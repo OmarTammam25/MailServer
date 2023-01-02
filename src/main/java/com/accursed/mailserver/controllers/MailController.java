@@ -45,7 +45,7 @@ public class MailController {
 
     @PutMapping("/add_to_folder")
     public void addToFolder(@RequestBody MailDTO mailDTO){
-        mailService.addToFolder(mailDTO.mailId, mailDTO.folderId);
+        folderService.addMailToFolder(mailDTO.mailId, mailDTO.folderId);
     }
 
     @GetMapping("/get_mails/{id}")
@@ -55,7 +55,7 @@ public class MailController {
 
     @DeleteMapping("/delete")
     public void deleteMail(@RequestBody MailDTO mailDTO){
-        mailService.deleteMail(mailDTO.mailId, mailDTO.folderId, mailDTO.userId);
+        mailService.deleteMailFromFolderAndPutIntoTrash(mailDTO.mailId, mailDTO.folderId, mailDTO.userId);
     }
 
 
@@ -79,8 +79,8 @@ public class MailController {
 //        mailService.updateDraft(mailDTO);
 //    }
 
-    @GetMapping("/searchBySubject")
-    public List<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
-        return mailService.searchBySubject(mailDTO);
-    }
+//    @GetMapping("/searchBySubject")
+//    public List<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
+//        return mailService.searchBySubject(mailDTO);
+//    }
 }
