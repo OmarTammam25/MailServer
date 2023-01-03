@@ -27,7 +27,7 @@ public class DraftController {
             MailDTO mailDTO = objectMapper.readValue(jsonRequest, MailDTO.class);
             DraftMail mail =  mailService.postDraft(mailDTO, files);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
-            mailDTO.id = mail.getId();
+            mailDTO.mailId = mail.getId();
             return ResponseEntity.created(location).body(mailDTO);
         } catch (Exception e){
             return ResponseEntity.badRequest().build();
@@ -41,7 +41,7 @@ public class DraftController {
         try {
             ImmutableMail mail =  mailService.sendDraft(mailDTO);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mail.getId()).toUri();
-            mailDTO.id = mail.getId();
+            mailDTO.mailId = mail.getId();
             return ResponseEntity.created(location).body(mailDTO);
         } catch (Exception e){
             return ResponseEntity.badRequest().build();

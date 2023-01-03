@@ -1,9 +1,11 @@
 package com.accursed.mailserver.controllers;
 
+import com.accursed.mailserver.database.DataHandler;
 import com.accursed.mailserver.dtos.AttachmentDTO;
 import com.accursed.mailserver.dtos.ResponseFile;
 import com.accursed.mailserver.models.Attachment;
 import com.accursed.mailserver.database.MailRepository;
+import com.accursed.mailserver.models.Mail;
 import com.accursed.mailserver.services.attachmentService.AttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,20 +31,23 @@ public class AttachmentController {
     private AttachmentService attachmentService;
     @Autowired
     private MailRepository mailRepository;
+    @Autowired
+    private DataHandler dataHandler;
 
 //    @GetMapping("/attachment/get/{id}")
 //    public Optional<Attachment> getAttachment(@PathVariable String id){
 //        return attachmentService.getAttachment(id);
 //    }
 
-    @GetMapping("/files")
-    public ResponseEntity<List<ResponseFile>> getListFiles() {
-        List<Attachment> files = attachmentService.getAllFiles();
-        List<ResponseFile> responseFiles = new ArrayList<>();
+    @GetMapping("/files/{mailId}")
+    public ResponseEntity<Set<ResponseFile>> getListFiles(@PathVariable String mailId) {
+        Mail mail = dataHandler.getMailByMailId(mailId);
+        Set<Attachment> files = mail.getAttachments();
+        Set<ResponseFile> responseFiles = new HashSet<>();
         for(Attachment i : files){
             String fileDownloadUri = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/files/")
+                    .path("/attachment/get/")
                     .path(i.getId())
                     .toUriString();
             responseFiles.add(new ResponseFile(

@@ -19,4 +19,7 @@ public interface MailMapper {
     Contact updateContactFromDto(ContactDTO contactDTO, @MappingTarget Contact entity);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Folder updateFolderFromDto(FolderDTO folderDTO, @MappingTarget Folder folder);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    MailDTO getMailDtoFromMail(Mail mail, @MappingTarget MailDTO mailDTO);
+
 }
