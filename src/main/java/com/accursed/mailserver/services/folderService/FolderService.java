@@ -37,7 +37,7 @@ public class FolderService {
 //    }
 
     public String createFolder(String userId,String folderName) {
-        Folder folder = new Folder(userId,folderName,null,null);
+        Folder folder = new Folder(null,folderName,null,null);
         User user = userRepo.findById(userId).get();
         folder.setUser(user);
         folderRepo.save(folder);
