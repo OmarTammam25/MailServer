@@ -71,9 +71,11 @@ public class MailController {
         return mailsDtos;
     }
 
-    @DeleteMapping("/delete")
-    public void deleteMail(@RequestBody MailDTO mailDTO){
-        mailService.deleteMailFromFolderAndPutIntoTrash(mailDTO.mailId, mailDTO.folderId, mailDTO.userId);
+    @DeleteMapping("/delete/{userId}/{folderId}/{mailId}")
+    public void deleteMail(@PathVariable String userId,
+                           @PathVariable String folderId,
+                           @PathVariable String mailId){
+        mailService.deleteMailFromFolderAndPutIntoTrash(mailId, folderId, userId);
     }
 
     @GetMapping("/searchBySubject")
