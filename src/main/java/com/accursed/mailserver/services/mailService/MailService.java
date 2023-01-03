@@ -66,10 +66,10 @@ public class MailService {
         return draftService.sendDraft(dto);
     }
 
-    public Set<Mail> searchBySubject(MailDTO mailDTO){
-        Folder folder = dataHandler.getFolderByFolderId(mailDTO.folderId);
+    public Set<Mail> searchBySubject(String id, String subject){
+        Folder folder = dataHandler.getFolderByFolderId(id);
         Set<Mail> mails = (Set<Mail>) folder.getMails();
-        return searchService.searchBySubject(mails, mailDTO.subject);
+        return searchService.searchBySubject(mails, subject);
     }
 
     public Optional<Mail> getDraft(MailDTO dto){

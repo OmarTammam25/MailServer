@@ -66,6 +66,9 @@ public class MailController {
             MailDTO mailDTO = new MailDTO();
             mailMapper.getMailDtoFromMail(mail, mailDTO);
             mailDTO.mailId = mail.getId();
+            mailDTO.from = mail.getMailFrom();
+            mailDTO.attachments = mail.getAttachments();
+            mailDTO.to = mail.getMailTo();
             mailsDtos.add(mailDTO);
         }
         return mailsDtos;
@@ -78,9 +81,9 @@ public class MailController {
         mailService.deleteMailFromFolderAndPutIntoTrash(mailId, folderId, userId);
     }
 
-    @GetMapping("/searchBySubject")
-    public Set<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
-        return mailService.searchBySubject(mailDTO);
+    @GetMapping("/searchBySubject/{id}/{subject}")
+    public Set<Mail> searchBySubject(@PathVariable String id, @PathVariable String subject){
+        return mailService.searchBySubject(id, subject);
     }
 
 //    @DeleteMapping("/cleartrash")
