@@ -36,10 +36,10 @@ public class ContactController {
         return contactDTO;
     }
 
-    @DeleteMapping("/delete")
-    public ContactDTO deleteContact (@RequestBody ContactDTO contactDTO){
-        contactService.deleteContact(contactDTO);
-        return contactDTO;
+    @DeleteMapping("/delete/{id}")
+    public void deleteContact (@PathVariable String id){
+        contactService.deleteContact(id);
+//        return contactDTO;
     }
 
     @GetMapping("/searchByName")
