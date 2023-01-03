@@ -53,8 +53,8 @@ public class ContactService {
         }
     }
 
-    public void deleteContact(ContactDTO contactDTO){
-        contactRepo.deleteById(contactDTO.id);
+    public void deleteContact(String  contactId){
+        contactRepo.deleteById(contactId);
     }
 
 

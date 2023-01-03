@@ -82,6 +82,7 @@ public class MailController {
     public Set<Mail> searchBySubject(@RequestBody MailDTO mailDTO){
         return mailService.searchBySubject(mailDTO);
     }
+
 //    @DeleteMapping("/cleartrash")
 //    public void clearTrash(){
 //        mailService.scheduledTrashDelete();

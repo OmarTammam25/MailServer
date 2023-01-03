@@ -1,8 +1,6 @@
 package com.accursed.mailserver.models;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;

@@ -20,7 +20,7 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(referencedColumnName = "id")
     @JsonIgnore
     private User user;
